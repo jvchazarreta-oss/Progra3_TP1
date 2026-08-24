@@ -22,6 +22,9 @@ public class Interface {
 
 	private JFrame frame;
 	private JLabel Instrucciones;
+	
+	// armo matriz de botones
+	private JButton[][] botones = new JButton[4][4]; 
 
 	/**
 	 * Launch the application.
@@ -76,6 +79,24 @@ public class Interface {
 	
 		}
 	
+	private boolean revisarAlgunaFilaLlena(int [][] matriz) {
+		for (int i = 0; i < 4; i++) {
+			boolean filaLlena = true;
+
+			for (int j = 0; j < 4; j++) {
+				if (matriz[i][j] == 0) {
+					filaLlena = false;
+					break;
+				}
+			}
+			if (filaLlena) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -129,57 +150,13 @@ public class Interface {
 		frame.getContentPane().add(tablero);
 		tablero.setLayout(new GridLayout(4, 4, 5, 5));
 		
-		JButton btn01 = new JButton("0");
-		btn01.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		tablero.add(btn01);
-		
-		JButton btn02 = new JButton("0");
-		tablero.add(btn02);
-		
-		JButton btn03 = new JButton("0");
-		tablero.add(btn03);
-		
-		JButton btn04 = new JButton("0");
-		tablero.add(btn04);
-		
-		JButton btn05 = new JButton("0");
-		tablero.add(btn05);
-		
-		JButton btn06 = new JButton("0");
-		tablero.add(btn06);
-		
-		JButton btn07 = new JButton("0");
-		tablero.add(btn07);
-		
-		JButton btn08 = new JButton("0");
-		tablero.add(btn08);
-		
-		JButton btn09 = new JButton("0");
-		tablero.add(btn09);
-		
-		JButton btn10 = new JButton("0");
-		tablero.add(btn10);
-		
-		JButton btn11 = new JButton("0");
-		tablero.add(btn11);
-		
-		JButton btn12 = new JButton("0");
-		tablero.add(btn12);
-		
-		JButton btn13 = new JButton("0");
-		tablero.add(btn13);
-		
-		JButton btn14 = new JButton("0");
-		tablero.add(btn14);
-		
-		JButton btn15 = new JButton("0");
-		tablero.add(btn15);
-		
-		JButton btn16 = new JButton("0");
-		tablero.add(btn16);
+		for (int i = 0; i < 4; i++) {
+		    for (int j = 0; j < 4; j++) {
+		        JButton boton = new JButton("0");
+		        botones[i][j] = boton;
+		        tablero.add(boton);
+		    }
+		}
 		
 		JLabel Titulo = new JLabel("Threes!");
 		Titulo.setHorizontalAlignment(SwingConstants.CENTER);
