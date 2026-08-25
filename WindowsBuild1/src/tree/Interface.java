@@ -17,14 +17,16 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class Interface {
 
 	private JFrame frame;
 	private JLabel Instrucciones;
  
-	// armo matriz de botones
-	private JButton[][] botones = new JButton[4][4];
+	// armo matriz de celdas
+	private JLabel[][] celdas = new JLabel[4][4];
  
 	private Juego juego = new Juego();
  
@@ -83,17 +85,22 @@ public class Interface {
 		frame.getContentPane().add(Instrucciones);
  
 		JPanel tablero = new JPanel();
-		tablero.setBackground(new Color(245, 236, 180));
+		tablero.setBorder(new EmptyBorder(10, 10, 10, 10));
+		tablero.setBackground(new Color(207, 229, 222));
 		tablero.setBounds(78, 45, 270, 165);
 		frame.getContentPane().add(tablero);
-		tablero.setLayout(new GridLayout(4, 4, 5, 5));
+		tablero.setLayout(new GridLayout(4, 4, 8, 8));
  
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				JButton boton = new JButton("0");
-				botones[i][j] = boton;
-				tablero.add(boton);
-			}
+		    for (int j = 0; j < 4; j++) {
+		    	JLabel celda = new JLabel("0", SwingConstants.CENTER);
+		    	celda.setOpaque(true);
+		    	celda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
+		    	celda.setForeground(new Color(80, 60, 100)); // color del texto
+		    	
+		        celdas[i][j] = celda;
+		        tablero.add(celda);
+		    }
 		}
  
 		JLabel Titulo = new JLabel("Threes!");
