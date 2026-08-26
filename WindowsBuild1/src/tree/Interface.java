@@ -36,7 +36,7 @@ public class Interface {
 				try {
 					Interface window = new Interface();
 					window.frame.setVisible(true);
-					window.juego.mostrar();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -77,13 +77,18 @@ public class Interface {
 		tablero.setBounds(78, 45, 270, 165);
 		frame.getContentPane().add(tablero);
 		tablero.setLayout(new GridLayout(4, 4, 8, 8));
- 
+		
+		
 		for (int i = 0; i < 4; i++) {
 		    for (int j = 0; j < 4; j++) {
 		    	JLabel celda = new JLabel("0", SwingConstants.CENTER);
 		    	celda.setOpaque(true);
 		    	celda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
 		    	celda.setForeground(new Color(80, 60, 100)); // color del texto
+		    	
+		    	Tablero elTablero = juego.obtenerTablero();
+
+		    	celda.setText(String.valueOf(elTablero.obtenerValorDeLaCelda(i, j)));
 		    	
 		        celdas[i][j] = celda;
 		        tablero.add(celda);
@@ -94,6 +99,9 @@ public class Interface {
 		Titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		Titulo.setBounds(169, 11, 63, 23);
 		frame.getContentPane().add(Titulo);
+		
+		
+		
  
 	}
 }

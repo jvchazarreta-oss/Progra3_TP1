@@ -10,18 +10,20 @@ public class Juego {
  
 	public Juego() {
 		this.tablero = new Tablero(4,4);
+		cargarTablero();
 	}
 	public void cargarNumeros(int fila,int col) {
 		int nuevoNumero=siguienteNumero();
 		this.tablero.establecerValorCelda(fila, col, nuevoNumero);
 	}
 	public  void mostrar() {
-		cargarTablero();
+		//cargarTablero();
 		for (int fila = 0; fila < 4; fila++) {
 			for (int col = 0; col < 4; col++) {
 					System.out.print(tablero.obtenerValorDeLaCelda(fila, col)+" ");
 				}System.out.println("");
-			}}
+			}
+	}
  
 	public static int siguienteNumero() {
 		Random aleatorio = new Random();
