@@ -36,27 +36,14 @@ public class Interface {
 				try {
 					Interface window = new Interface();
 					window.frame.setVisible(true);
+					window.juego.mostrar();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		});
+		});}
  
-		// pruebas de la logica del juego (igual que antes, ahora usando Juego)
-		System.out.println("00 00 00 00 \n00 00 00 00");
-		int[][] matrizPrueba = new int[4][4];
-		List<Cordenada> iniciales = Juego.ubicacionesInicialesNumeros(matrizPrueba);
-		for (Cordenada c : iniciales) {
-			System.out.println("Fila: " + c.getFila() + ", Columna: " + c.getColumna());
-		}
-		System.out.println(Juego.ubicacionesInicialesNumeros(matrizPrueba));
-		System.out.println(Juego.siguienteNumero());
-		System.out.println(Juego.siguienteNumero());
-		System.out.println(Juego.siguienteNumero());
-		System.out.println(Juego.siguienteNumero());
-		System.out.println(Juego.siguienteNumero());
-		System.out.println(Juego.siguienteNumero());
-	}
+
  
 	/**
 	 * Create the application.
