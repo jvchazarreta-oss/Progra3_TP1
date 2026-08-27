@@ -87,7 +87,7 @@ public class VentanaPrincipal {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		Instrucciones = new JLabel("Controles:  flechas del teclado");
+		Instrucciones = new JLabel("Controles: flechas del teclado");
 		Instrucciones.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		Instrucciones.setHorizontalAlignment(SwingConstants.CENTER);
 		Instrucciones.setBounds(139, 357, 302, 21);

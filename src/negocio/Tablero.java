@@ -77,6 +77,7 @@ public class Tablero {
 			for (int j = 0; j < cantidadDeColumnas; j++) {
 				// a i,j lo muevo a i+1,j salvo que i sea 3
 				if (i != cantidadDeFilas - 1) {
+					// si origen es un 1 o 2, y destino es 1 o 2, o origen=destino, fusiono
 					matrizCopia[i + 1][j] = matriz[i][j];
 				}
 			}
