@@ -2,6 +2,7 @@ package presentacion;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -30,7 +31,6 @@ public class VentanaPrincipal {
 				try {
 					VentanaPrincipal window = new VentanaPrincipal();
 					window.frame.setVisible(true);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,41 +55,44 @@ public class VentanaPrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 594, 446);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		Instrucciones = new JLabel("Controles:  ⬅️⬆️⬇️➡️");
+		Instrucciones = new JLabel("Controles:  flechas del teclado");
+		Instrucciones.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		Instrucciones.setHorizontalAlignment(SwingConstants.CENTER);
-		Instrucciones.setBounds(129, 229, 172, 21);
+		Instrucciones.setBounds(139, 357, 302, 21);
 		frame.getContentPane().add(Instrucciones);
 
-		JPanel tablero = new JPanel();
-		tablero.setBorder(new EmptyBorder(10, 10, 10, 10));
-		tablero.setBackground(new Color(207, 229, 222));
-		tablero.setBounds(78, 45, 270, 165);
-		frame.getContentPane().add(tablero);
-		tablero.setLayout(new GridLayout(4, 4, 8, 8));
+		JPanel panelTablero = new JPanel();
+		panelTablero.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panelTablero.setBackground(new Color(207, 229, 222));
+		panelTablero.setBounds(78, 45, 417, 290);
+		frame.getContentPane().add(panelTablero);
+		panelTablero.setLayout(new GridLayout(4, 4, 8, 8));
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				JLabel celda = new JLabel("0", SwingConstants.CENTER);
-				celda.setOpaque(true);
-				celda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
-				celda.setForeground(new Color(80, 60, 100)); // color del texto
+				JLabel labelCelda = new JLabel("0", SwingConstants.CENTER);
+				labelCelda.setOpaque(true);
+				labelCelda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
+				labelCelda.setForeground(new Color(80, 60, 100)); // color del texto
+				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16)); // acá el cambio
 
-				Tablero elTablero = juego.obtenerTablero();
+				Tablero tablero = juego.getTablero();
 
-				celda.setText(String.valueOf(elTablero.obtenerValorDeLaCelda(i, j)));
+				labelCelda.setText(String.valueOf(tablero.obtenerValorDeLaCelda(i, j)));
 
-				celdas[i][j] = celda;
-				tablero.add(celda);
+				celdas[i][j] = labelCelda;
+				panelTablero.add(labelCelda);
 			}
 		}
 
 		JLabel Titulo = new JLabel("Threes!");
+		Titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		Titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		Titulo.setBounds(169, 11, 63, 23);
+		Titulo.setBounds(252, 11, 63, 23);
 		frame.getContentPane().add(Titulo);
 
 	}

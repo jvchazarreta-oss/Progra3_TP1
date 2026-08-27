@@ -1,38 +1,16 @@
 package negocio;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 public class Juego {
 
 	private Tablero tablero;
 
 	public Juego() {
 		this.tablero = new Tablero(4, 4);
-		cargarTablero();
 	}
 
-	public void cargarNumeros(int fila, int col) {
-		int nuevoNumero = siguienteNumero();
-		this.tablero.establecerValorCelda(fila, col, nuevoNumero);
-	}
-
-	public void mostrar() {
-		cargarTablero();
-		for (int fila = 0; fila < 4; fila++) {
-			for (int col = 0; col < 4; col++) {
-				System.out.print(tablero.obtenerValorDeLaCelda(fila, col) + " ");
-			}
-			System.out.println("");
-		}
-	}
-
-	public static int siguienteNumero() {
-		Random aleatorio = new Random();
-		int n = aleatorio.nextInt(1, 4);
-		return n;
+	public void moverAbajo() {
+		// tengo que bajar 1 todas las celdas
+		tablero.moverAbajo();
 	}
 
 	public boolean estaVacio(int fila, int columna) {
@@ -40,44 +18,10 @@ public class Juego {
 	}
 
 	public void cargarTablero() {
-		List<Coordenada> ubicaciones = new ArrayList<>();
-		ubicaciones = ubicacionesInicialesNumeros();
-		for (Coordenada coord : ubicaciones) {
-			int fila = coord.getFila();
-			int columna = coord.getColumna();
-			cargarNumeros(fila, columna);
-		}
+		tablero.cargarTablero();
 	}
 
-	/*
-	 * public static List<Cordenada> ubicacionesInicialesNumeros(int[][] matriz) {
-	 * List<Cordenada> ubicaciones = new ArrayList<>(); for (int i = 0; i < 4; i++)
-	 * { for (int j = 0; j < 4; j++) { ubicaciones.add(new Cordenada(i, j)); } }
-	 * Collections.shuffle(ubicaciones); return ubicaciones.subList(0, 9); }
-	 */
-	public List<Coordenada> ubicacionesInicialesNumeros() {
-		List<Coordenada> ubicaciones = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				ubicaciones.add(new Coordenada(i, j));
-			}
-		}
-		Collections.shuffle(ubicaciones);
-		return ubicaciones.subList(0, 9);
-	}
-
-	/*
-	 * public void inicializarTablero() { // Tiene el mismo comportamiento que
-	 * cargarTablero() pero no se usa List<Cordenada> ubicaciones = new
-	 * ArrayList<>(); ubicaciones=ubicacionesInicialesNumeros(); for (Cordenada
-	 * coord : ubicaciones) { int fila = coord.getFila(); int columna =
-	 * coord.getColumna(); cargarNumeros(fila,columna);
-	 * 
-	 * }}
-	 * 
-	 */
-
-	public Tablero obtenerTablero() {
+	public Tablero getTablero() {
 		return tablero;
 	}
 
@@ -115,6 +59,15 @@ public class Juego {
 			}
 		}
 		return false;
+	}
+
+	public void mostrarTableroPorConsola() {
+		for (int fila = 0; fila < 4; fila++) {
+			for (int col = 0; col < 4; col++) {
+				System.out.print(tablero.obtenerValorDeLaCelda(fila, col) + " ");
+			}
+			System.out.println("");
+		}
 	}
 
 }
