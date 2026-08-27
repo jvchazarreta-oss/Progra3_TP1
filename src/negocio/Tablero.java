@@ -71,10 +71,17 @@ public class Tablero {
 	}
 
 	public void moverAbajo() {
-		int[][] copia = new int[matriz.length][];
-		for (int i = 0; i < matriz.length; i++) {
-			copia[i] = matriz[i].clone();
-		}
+		int[][] matrizCopia = new int[cantidadDeFilas][cantidadDeColumnas];
+
+		for (int i = 0; i < cantidadDeFilas; i++)
+			for (int j = 0; j < cantidadDeColumnas; j++) {
+				// a i,j lo muevo a i+1,j salvo que i sea 3
+				if (i != cantidadDeFilas - 1) {
+					matrizCopia[i + 1][j] = matriz[i][j];
+				}
+			}
+
+		matriz = matrizCopia;
 	}
 
 }

@@ -9,8 +9,10 @@ public class Juego {
 	}
 
 	public void moverAbajo() {
-		// tengo que bajar 1 todas las celdas
+		// le delego a tablero
+		System.out.println("muevo abajo");
 		tablero.moverAbajo();
+
 	}
 
 	public boolean estaVacio(int fila, int columna) {
@@ -68,6 +70,21 @@ public class Juego {
 			}
 			System.out.println("");
 		}
+	}
+
+	public void moverArriba() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void moverIzquierda() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void moverDerecha() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

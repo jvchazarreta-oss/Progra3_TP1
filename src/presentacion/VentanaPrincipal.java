@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,6 +57,32 @@ public class VentanaPrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_DOWN: {
+					juego.moverAbajo();
+					actualizarTablero();
+					break;
+				}
+				case KeyEvent.VK_UP: {
+					juego.moverArriba();
+					break;
+				}
+				case KeyEvent.VK_LEFT: {
+					juego.moverIzquierda();
+					break;
+				}
+				case KeyEvent.VK_RIGHT: {
+					juego.moverDerecha();
+					break;
+				}
+				}
+
+			}
+
+		});
 		frame.setBounds(100, 100, 594, 446);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -82,7 +110,30 @@ public class VentanaPrincipal {
 
 				Tablero tablero = juego.getTablero();
 
-				labelCelda.setText(String.valueOf(tablero.obtenerValorDeLaCelda(i, j)));
+				int valor = tablero.obtenerValorDeLaCelda(i, j);
+
+				labelCelda.setText(valor == 0 ? "" : String.valueOf(valor));
+
+				switch (valor) {
+				case 1: {
+					labelCelda.setBackground(Color.RED);
+					labelCelda.setForeground(Color.WHITE);
+					break;
+				}
+				case 2: {
+					labelCelda.setBackground(Color.BLUE);
+					labelCelda.setForeground(Color.WHITE);
+					break;
+				}
+				default:
+					if (valor >= 3) {
+						labelCelda.setBackground(Color.WHITE);
+						labelCelda.setForeground(Color.BLACK);
+					} else {
+						labelCelda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
+						labelCelda.setForeground(new Color(80, 60, 100)); // color del texto
+					}
+				}
 
 				celdas[i][j] = labelCelda;
 				panelTablero.add(labelCelda);
@@ -95,5 +146,39 @@ public class VentanaPrincipal {
 		Titulo.setBounds(252, 11, 63, 23);
 		frame.getContentPane().add(Titulo);
 
+	}
+
+	private void actualizarTablero() {
+		System.out.println("actualizando tablero");
+		Tablero tablero = juego.getTablero();
+
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) {
+				int valor = tablero.obtenerValorDeLaCelda(i, j);
+				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
+
+				// SETEO COLORES
+				// TODO: extraer en un metodo xq se usa en el initialize tamb
+				switch (valor) {
+				case 1: {
+					celdas[i][j].setBackground(Color.RED);
+					celdas[i][j].setForeground(Color.WHITE);
+					break;
+				}
+				case 2: {
+					celdas[i][j].setBackground(Color.BLUE);
+					celdas[i][j].setForeground(Color.WHITE);
+					break;
+				}
+				default:
+					if (valor >= 3) {
+						celdas[i][j].setBackground(Color.WHITE);
+						celdas[i][j].setForeground(Color.BLACK);
+					} else {
+						celdas[i][j].setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
+						celdas[i][j].setForeground(new Color(80, 60, 100)); // color del texto
+					}
+				}
+			}
 	}
 }
