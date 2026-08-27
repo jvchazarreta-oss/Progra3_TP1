@@ -1,4 +1,4 @@
-package tree;
+package negocio;
 
 public class Cordenada {
 	private final int fila;

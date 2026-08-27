@@ -1,4 +1,4 @@
-package tree;
+package negocio;
 
 public class Tablero {
 		private int[][] matriz;
