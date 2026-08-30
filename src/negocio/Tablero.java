@@ -69,20 +69,91 @@ public class Tablero {
 		int n = aleatorio.nextInt(1, 4);
 		return n;
 	}
+	
 
+	
 	public void moverAbajo() {
-		int[][] matrizCopia = new int[cantidadDeFilas][cantidadDeColumnas];
-
-		for (int i = 0; i < cantidadDeFilas; i++)
-			for (int j = 0; j < cantidadDeColumnas; j++) {
-				// a i,j lo muevo a i+1,j salvo que i sea 3
-				if (i != cantidadDeFilas - 1) {
-					// si origen es un 1 o 2, y destino es 1 o 2, o origen=destino, fusiono
-					matrizCopia[i + 1][j] = matriz[i][j];
-				}
-			}
-
-		matriz = matrizCopia;
+		int fil=cantidadDeFilas-1;
+		int col=cantidadDeColumnas-1;
+		
+		for (int j = 0; j <= col; j++) {
+			for (int i = fil-1; i >= 0 ; i--) {
+				int valorInicial = matriz[i][j];
+				if (valorInicial!=0) {
+					int valorFinal = matriz[i+1][j];
+					if(valorFinal==0) {
+						matriz[i+1][j]=valorInicial;
+						matriz[i][j]=0;
+					}
+					else if (sePuedenFusionar(valorInicial, valorFinal)) {
+						matriz[i+1][j]=valorInicial+valorFinal;
+						matriz[i][j]=0;
+					}}}}		
 	}
+	public void moverArriba() {
+		int fil=cantidadDeFilas-1;
+		int col=cantidadDeColumnas-1;
+		
+		for (int j = 0; j <= col; j++) {
+			for (int i = 1; i <= fil ; i++) {
+				int valorInicial = matriz[i][j];
+				if (valorInicial!=0) {
+					int valorFinal = matriz[i-1][j];
+					if(valorFinal==0)  {
+						
+						matriz[i-1][j]=valorInicial;
+						matriz[i][j]=0;
+					}
+					else if (sePuedenFusionar(valorInicial, valorFinal)) {
+						matriz[i-1][j]=valorInicial+valorFinal;
+						matriz[i][j]=0;
+					}}}}		
+	}
+	public boolean esBordeSuperior(int i, int j) {
+		return i == 1;
+	}
+	
+	public void moverIzquierda() {
+		int fil=cantidadDeFilas-1;
+		int col=cantidadDeColumnas-1;
+		
+		for (int i = 0; i <= fil; i++) {
+			for (int j = 1; j <= col ; j++) {
+				int valorInicial = matriz[i][j];
+				if (valorInicial!=0) {
+					int valorFinal = matriz[i][j-1];
+					if(valorFinal==0) {
+						matriz[i][j-1]=valorInicial;
+						matriz[i][j]=0;
+					}
+					else if (sePuedenFusionar(valorInicial, valorFinal)) {
+						matriz[i][j-1]=valorInicial+valorFinal;
+						matriz[i][j]=0;
+					}}}}		
+	}
+	public void moverDerecha() {
+		int fil=cantidadDeFilas-1;
+		int col=cantidadDeColumnas-1;
+		
+		for (int i = 0; i <= fil; i++) {
+			for (int j = col-1; j >= 0 ; j--) {
+				int valorInicial = matriz[i][j];
+				if (valorInicial!=0) {
+					int valorFinal = matriz[i][j+1];
+					if(valorFinal==0) {
+						matriz[i][j]=0;
+						matriz[i][j+1]=valorInicial;
+					}else if (sePuedenFusionar(valorInicial, valorFinal)) {
+						matriz[i][j+1]=valorInicial+valorFinal;
+						matriz[i][j]=0;
+					}}}}		
+	}
+
+public boolean sePuedenFusionar(int a, int b) {
+	if (((a==b) && (a>=3))    || (a==1 && b==2) || (a==2 && b==1)) {
+		return true;}
+	else {
+		return false;}}
+
 
 }

@@ -12,6 +12,11 @@ public class Juego {
 		// le delego a tablero
 		System.out.println("muevo abajo");
 		tablero.moverAbajo();
+	}
+	public void moverArriba() {
+		// le delego a tablero
+		System.out.println("muevo arriba");
+		tablero.moverArriba();
 
 	}
 
@@ -72,18 +77,15 @@ public class Juego {
 		}
 	}
 
-	public void moverArriba() {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	public void moverIzquierda() {
-		// TODO Auto-generated method stub
+		tablero.moverIzquierda();
 
 	}
 
 	public void moverDerecha() {
-		// TODO Auto-generated method stub
+		tablero.moverDerecha();
 
 	}
 

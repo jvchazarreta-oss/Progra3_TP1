@@ -68,14 +68,17 @@ public class VentanaPrincipal {
 				}
 				case KeyEvent.VK_UP: {
 					juego.moverArriba();
+					actualizarTablero();
 					break;
 				}
 				case KeyEvent.VK_LEFT: {
 					juego.moverIzquierda();
+					actualizarTablero();
 					break;
 				}
 				case KeyEvent.VK_RIGHT: {
 					juego.moverDerecha();
+					actualizarTablero();
 					break;
 				}
 				}
