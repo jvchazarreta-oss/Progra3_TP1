@@ -64,21 +64,33 @@ public class VentanaPrincipal {
 				case KeyEvent.VK_DOWN: {
 					juego.moverAbajo();
 					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						javax.swing.JOptionPane.showMessageDialog(frame, "¡Juego terminado!");
+					}
 					break;
 				}
 				case KeyEvent.VK_UP: {
 					juego.moverArriba();
 					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						javax.swing.JOptionPane.showMessageDialog(frame, "¡Juego terminado!");
+					}
 					break;
 				}
 				case KeyEvent.VK_LEFT: {
 					juego.moverIzquierda();
 					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						javax.swing.JOptionPane.showMessageDialog(frame, "¡Juego terminado!");
+					}
 					break;
 				}
 				case KeyEvent.VK_RIGHT: {
 					juego.moverDerecha();
 					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						javax.swing.JOptionPane.showMessageDialog(frame, "¡Juego terminado!");
+					}
 					break;
 				}
 				}
