@@ -194,14 +194,13 @@ public class Tablero {
 			return false;
 		}
 	}
-	
+
 	private int elegirAlAzar(List<Integer> opciones) {
 		Random aleatorio = new Random();
 		int indice = aleatorio.nextInt(opciones.size());
 		return opciones.get(indice);
 	}
-	
-	
+
 	private void agregarFichaEnFilaSiHayLugar(int fila) {
 		List<Integer> columnasLibres = new ArrayList<>();
 		for (int j = 0; j < cantidadDeColumnas; j++) {
@@ -215,8 +214,6 @@ public class Tablero {
 		}
 	}
 
-	
-	
 	private void agregarFichaEnColumnaSiHayLugar(int columna) {
 		List<Integer> filasLibres = new ArrayList<>();
 		for (int i = 0; i < cantidadDeFilas; i++) {
@@ -229,13 +226,12 @@ public class Tablero {
 			cargarNumeros(fila, columna);
 		}
 	}
-	
-	
 
 	private boolean hayCeldaVacia() {
 		for (int i = 0; i < cantidadDeFilas; i++) {
 			for (int j = 0; j < cantidadDeColumnas; j++) {
-				if (matriz[i][j] == 0) return true;
+				if (matriz[i][j] == 0)
+					return true;
 			}
 		}
 		return false;
@@ -245,9 +241,12 @@ public class Tablero {
 		for (int i = 0; i < cantidadDeFilas; i++) {
 			for (int j = 0; j < cantidadDeColumnas; j++) {
 				int actual = matriz[i][j];
-				if (actual == 0) continue;
-				if (j + 1 < cantidadDeColumnas && sePuedenFusionar(actual, matriz[i][j + 1])) return true;
-				if (i + 1 < cantidadDeFilas && sePuedenFusionar(actual, matriz[i + 1][j])) return true;
+				if (actual == 0)
+					continue;
+				if (j + 1 < cantidadDeColumnas && sePuedenFusionar(actual, matriz[i][j + 1]))
+					return true;
+				if (i + 1 < cantidadDeFilas && sePuedenFusionar(actual, matriz[i + 1][j]))
+					return true;
 			}
 		}
 		return false;

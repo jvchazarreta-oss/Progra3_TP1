@@ -10,13 +10,11 @@ public class Juego {
 
 	public void moverAbajo() {
 		// le delego a tablero
-		System.out.println("muevo abajo");
 		tablero.moverAbajo();
 	}
 
 	public void moverArriba() {
 		// le delego a tablero
-		System.out.println("muevo arriba");
 		tablero.moverArriba();
 
 	}
@@ -79,20 +77,23 @@ public class Juego {
 	}
 
 	public void moverIzquierda() {
-		System.out.println("muevo izquierda");
 		tablero.moverIzquierda();
 
 	}
 
 	public void moverDerecha() {
 
-		System.out.println("muevo derecha");
 		tablero.moverDerecha();
 
 	}
-	
+
 	public boolean juegoTerminado() {
 		return tablero.juegoTerminado();
+	}
+
+	public void nuevoJuego() {
+		// TODO Auto-generated method stub
+		this.tablero = new Tablero(4, 4);
 	}
 
 }
