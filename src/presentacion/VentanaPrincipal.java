@@ -134,6 +134,7 @@ public class VentanaPrincipal {
 		textFieldPuntajeActual.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldPuntajeActual.setEditable(false);
 		textFieldPuntajeActual.setBounds(256, 40, 86, 21);
+		textFieldPuntajeActual.setText(String.valueOf(juego.obtenerPuntaje()));
 		frmThrees.getContentPane().add(textFieldPuntajeActual);
 		textFieldPuntajeActual.setColumns(10);
 
@@ -175,37 +176,14 @@ public class VentanaPrincipal {
 				labelCelda.setForeground(new Color(80, 60, 100)); // color del texto
 				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16)); // acá el cambio
 
-				Tablero tablero = juego.getTablero();
-
-				int valor = tablero.obtenerValorDeLaCelda(i, j);
-
-				labelCelda.setText(valor == 0 ? "" : String.valueOf(valor));
-
-				switch (valor) {
-				case 1: {
-					labelCelda.setBackground(Color.RED);
-					labelCelda.setForeground(Color.WHITE);
-					break;
-				}
-				case 2: {
-					labelCelda.setBackground(Color.BLUE);
-					labelCelda.setForeground(Color.WHITE);
-					break;
-				}
-				default:
-					if (valor >= 3) {
-						labelCelda.setBackground(Color.WHITE);
-						labelCelda.setForeground(Color.BLACK);
-					} else {
-						labelCelda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
-						labelCelda.setForeground(new Color(80, 60, 100)); // color del texto
-					}
-				}
-
 				celdas[i][j] = labelCelda;
 				panelTablero.add(labelCelda);
 			}
 		}
+
+		// vuelvo a recorrer otra vez la matriz, no importa me parece porq O(n**2) +
+		// O(n**2) es O(n**2)
+		actualizarTablero();
 
 	}
 
@@ -217,8 +195,7 @@ public class VentanaPrincipal {
 				int valor = tablero.obtenerValorDeLaCelda(i, j);
 				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
 
-				// SETEO COLORES
-				// TODO: extraer en un metodo xq se usa en el initialize tamb
+				// Seteo colores
 				switch (valor) {
 				case 1: {
 					celdas[i][j].setBackground(Color.RED);
@@ -240,6 +217,7 @@ public class VentanaPrincipal {
 					}
 				}
 			}
+		textFieldPuntajeActual.setText(String.valueOf(juego.obtenerPuntaje()));
 	}
 
 	private void mostrarFinDeJuego() {

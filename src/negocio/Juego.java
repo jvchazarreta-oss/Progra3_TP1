@@ -3,9 +3,15 @@ package negocio;
 public class Juego {
 
 	private Tablero tablero;
+	private int puntaje;
 
 	public Juego() {
 		this.tablero = new Tablero(4, 4);
+		this.puntaje = tablero.obtenerPuntajeInicial();
+	}
+
+	public int obtenerPuntaje() {
+		return puntaje;
 	}
 
 	public void moverAbajo() {
