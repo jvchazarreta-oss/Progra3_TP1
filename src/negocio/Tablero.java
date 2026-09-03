@@ -39,8 +39,7 @@ public class Tablero {
 	}
 
 	public void cargarTablero() {
-		List<Coordenada> ubicaciones = new ArrayList<>();
-		ubicaciones = ubicacionesInicialesNumeros();
+		List<Coordenada> ubicaciones = ubicacionesInicialesNumeros();
 		for (Coordenada coord : ubicaciones) {
 			int fila = coord.getFila();
 			int columna = coord.getColumna();

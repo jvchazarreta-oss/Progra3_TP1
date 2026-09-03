@@ -30,7 +30,7 @@ public class VentanaPrincipal {
 	private JLabel[][] celdas = new JLabel[4][4];
 
 	private Juego juego = new Juego();
-	private JTextField textFieldPuntajeActual;
+
 	private JTextField textFieldProximoNumero;
 
 	public static void main(String[] args) {
@@ -124,32 +124,21 @@ public class VentanaPrincipal {
 		frmThrees.getContentPane().add(panelTablero);
 		panelTablero.setLayout(new GridLayout(4, 4, 8, 8));
 
-		JLabel lblPuntaje = new JLabel("Puntaje actual");
-		lblPuntaje.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPuntaje.setBounds(246, 13, 105, 31);
-		frmThrees.getContentPane().add(lblPuntaje);
-
-		textFieldPuntajeActual = new JTextField();
-		textFieldPuntajeActual.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldPuntajeActual.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldPuntajeActual.setEditable(false);
-		textFieldPuntajeActual.setBounds(256, 40, 86, 21);
-		textFieldPuntajeActual.setText(String.valueOf(juego.obtenerPuntaje()));
-		frmThrees.getContentPane().add(textFieldPuntajeActual);
-		textFieldPuntajeActual.setColumns(10);
-
-		JButton btnTablaHistorica = new JButton("Tabla histórica");
-		btnTablaHistorica.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JButton btnTablaHistorica = new JButton("Tabla de posiciones");
 		btnTablaHistorica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mostrarTablaDePosiciones();
 			}
 		});
-		btnTablaHistorica.setBounds(75, 40, 135, 23);
+		btnTablaHistorica.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnTablaHistorica.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+		btnTablaHistorica.setBounds(24, 42, 171, 21);
 		frmThrees.getContentPane().add(btnTablaHistorica);
 
 		JLabel lblProximoNumero = new JLabel("Próximo");
 		lblProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblProximoNumero.setBounds(427, 21, 88, 14);
+		lblProximoNumero.setBounds(253, 17, 88, 14);
 		frmThrees.getContentPane().add(lblProximoNumero);
 
 		textFieldProximoNumero = new JTextField();
@@ -157,16 +146,29 @@ public class VentanaPrincipal {
 		textFieldProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldProximoNumero.setEditable(false);
 		textFieldProximoNumero.setColumns(10);
-		textFieldProximoNumero.setBounds(412, 40, 86, 21);
+		textFieldProximoNumero.setBounds(245, 42, 86, 21);
 		frmThrees.getContentPane().add(textFieldProximoNumero);
 
-		JButton btnSugerenciaProxJugada = new JButton("Sugerencia");
+		JButton btnSugerenciaProxJugada = new JButton("Sugerencia...");
+		btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnSugerenciaProxJugada.setBounds(459, 373, 89, 23);
+		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
 		frmThrees.getContentPane().add(btnSugerenciaProxJugada);
+
+		JButton btnReiniciarJuego = new JButton("Reiniciar juego");
+		btnReiniciarJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				juego.nuevoJuego();
+				actualizarTablero();
+			}
+		});
+		btnReiniciarJuego.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnReiniciarJuego.setBounds(24, 10, 145, 21);
+		frmThrees.getContentPane().add(btnReiniciarJuego);
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -217,22 +219,46 @@ public class VentanaPrincipal {
 					}
 				}
 			}
-		textFieldPuntajeActual.setText(String.valueOf(juego.obtenerPuntaje()));
 	}
 
 	private void mostrarFinDeJuego() {
-		// TODO Auto-generated method stub
-		Object[] opciones = { "Juego nuevo", "Salir" };
-		int eleccion = javax.swing.JOptionPane.showOptionDialog(frmThrees, "¡Juego terminado!", "Fin del juego",
-				javax.swing.JOptionPane.DEFAULT_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE, null, opciones,
-				opciones[0]);
+		String[] listaOpciones = { "Tabla de posiciones", "Juego nuevo", "Salir a Windows" };
 
-		if (opciones[eleccion] == "Juego nuevo") {
-			// reseteo
+		int eleccion = javax.swing.JOptionPane.showOptionDialog(frmThrees,
+				"¡Juego terminado! Tu puntaje es " + juego.obtenerPuntaje(), null,
+				javax.swing.JOptionPane.DEFAULT_OPTION, javax.swing.JOptionPane.INFORMATION_MESSAGE, null,
+				listaOpciones, listaOpciones[0]);
+
+		if (eleccion == javax.swing.JOptionPane.CLOSED_OPTION)
+			return;
+
+		accionSegunClickDelUsuario(listaOpciones, eleccion);
+
+	}
+
+	private void accionSegunClickDelUsuario(String[] listaOpciones, int eleccion) {
+
+		switch (listaOpciones[eleccion].toString()) {
+		case "Tabla de posiciones": {
+			mostrarTablaDePosiciones();
+			break;
+		}
+		case "Juego nuevo": {
 			juego.nuevoJuego();
 			actualizarTablero();
-		} else {
+			break;
+		}
+		case "Salir": {
 			System.exit(0);
 		}
+
+		default:
+			throw new IllegalStateException();
+		}
+	}
+
+	private void mostrarTablaDePosiciones() {
+		TablaDePosiciones frmTabla = new TablaDePosiciones();
+		frmTabla.frmTablaDePosiciones.setVisible(true);
 	}
 }

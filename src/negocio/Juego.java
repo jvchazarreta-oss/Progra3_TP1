@@ -102,4 +102,8 @@ public class Juego {
 		this.tablero = new Tablero(4, 4);
 	}
 
+	public String[] obtenerTablaDePosiciones() {
+		return new String[] { "1234", "123", "12", "1" };
+	}
+
 }
