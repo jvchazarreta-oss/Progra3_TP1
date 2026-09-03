@@ -1,17 +1,34 @@
 package negocio;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 public class Juego {
 
 	private Tablero tablero;
-	private int puntaje;
+	private ArrayList<Integer> puntajes;
 
 	public Juego() {
 		this.tablero = new Tablero(4, 4);
-		this.puntaje = tablero.obtenerPuntajeInicial();
+		this.puntajes = new ArrayList<Integer>();
 	}
 
 	public int obtenerPuntaje() {
-		return puntaje;
+		return tablero.obtenerPuntaje();
+	}
+
+	public ArrayList<Integer> obtenerPuntajes() {
+		return this.puntajes;
+	}
+
+	private void almacenarPuntaje() {
+		int puntaje = tablero.obtenerPuntaje();
+
+		if (puntajes.contains(puntaje))
+			return;
+
+		puntajes.add(tablero.obtenerPuntaje());
+		puntajes.sort(Comparator.reverseOrder());
 	}
 
 	public void moverAbajo() {
@@ -94,16 +111,15 @@ public class Juego {
 	}
 
 	public boolean juegoTerminado() {
-		return tablero.juegoTerminado();
+		if (tablero.juegoTerminado()) {
+			almacenarPuntaje();
+			return true;
+		}
+		return false;
 	}
 
 	public void nuevoJuego() {
-		// TODO Auto-generated method stub
 		this.tablero = new Tablero(4, 4);
-	}
-
-	public String[] obtenerTablaDePosiciones() {
-		return new String[] { "1234", "123", "12", "1" };
 	}
 
 }

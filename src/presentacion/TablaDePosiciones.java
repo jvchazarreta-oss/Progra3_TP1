@@ -1,6 +1,6 @@
 package presentacion;
 
-import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,31 +10,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import negocio.Juego;
+
 public class TablaDePosiciones {
 
 	public JFrame frmTablaDePosiciones;
 	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TablaDePosiciones window = new TablaDePosiciones();
-					window.frmTablaDePosiciones.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Juego juego;
 
 	/**
 	 * Create the application.
 	 */
-	public TablaDePosiciones() {
+	public TablaDePosiciones(Juego juego) {
+		this.juego = juego;
 		initialize();
 	}
 
@@ -63,14 +51,16 @@ public class TablaDePosiciones {
 		DefaultTableModel model = new DefaultTableModel();
 
 		// agrego columnas
-		model.addColumn("Posicion");
+		model.addColumn("Posición");
 		model.addColumn("Puntaje");
 
 		// agrego filas con la info
-		// String[] tablaPosiciones = juego.obtenerTablaDePosiciones();
-		model.addRow(new String[] { "1", "1234" });
-		model.addRow(new String[] { "2", "123" });
-		model.addRow(new String[] { "3", "12" });
+		ArrayList<Integer> puntajes = juego.obtenerPuntajes();
+
+		for (int i = 0; i < puntajes.size(); i++) {
+			Integer puntaje = puntajes.get(i);
+			model.addRow(new String[] { String.valueOf(i + 1), puntaje.toString() });
+		}
 
 		table.setModel(model);
 

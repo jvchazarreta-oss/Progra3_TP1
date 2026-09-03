@@ -255,14 +255,13 @@ public class Tablero {
 		return !hayCeldaVacia() && !hayFusionPosible();
 	}
 
-	public int obtenerPuntajeInicial() {
-		// devuelvo 3*cantidad de 3's que hay
-		int cantidadDe3 = 0;
+	public int obtenerPuntaje() {
+		int puntajeTotal = 0;
 		for (int i = 0; i < cantidadDeFilas; i++)
 			for (int j = 0; j < cantidadDeColumnas; j++)
-				if (matriz[i][j] == 3)
-					cantidadDe3++;
-		return 3 * cantidadDe3;
+				if (matriz[i][j] >= 3)
+					puntajeTotal += matriz[i][j];
+		return puntajeTotal;
 	}
 
 }

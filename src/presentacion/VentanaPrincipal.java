@@ -248,7 +248,7 @@ public class VentanaPrincipal {
 			actualizarTablero();
 			break;
 		}
-		case "Salir": {
+		case "Salir a Windows": {
 			System.exit(0);
 		}
 
@@ -258,7 +258,7 @@ public class VentanaPrincipal {
 	}
 
 	private void mostrarTablaDePosiciones() {
-		TablaDePosiciones frmTabla = new TablaDePosiciones();
+		TablaDePosiciones frmTabla = new TablaDePosiciones(juego);
 		frmTabla.frmTablaDePosiciones.setVisible(true);
 	}
 }
