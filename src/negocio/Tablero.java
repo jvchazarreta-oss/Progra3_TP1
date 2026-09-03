@@ -9,11 +9,14 @@ public class Tablero {
 	private int[][] matriz;
 	private int cantidadDeColumnas;
 	private int cantidadDeFilas;
+	private int siguienteNumero;
 
 	public Tablero(int fila, int col) {
 		this.matriz = new int[fila][col];
 		this.cantidadDeColumnas = col;
 		this.cantidadDeFilas = fila;
+		this.siguienteNumero = 0;
+		
 		cargarTablero();
 	}
 
@@ -44,9 +47,15 @@ public class Tablero {
 			int fila = coord.getFila();
 			int columna = coord.getColumna();
 			cargarNumeros(fila, columna);
+			obtenerSiguienteNumero();
 		}
 	}
-
+	public int obtenerSiguienteNumero() {
+		this.siguienteNumero = siguienteNumero();
+		return this.siguienteNumero;
+	}
+	
+	
 	public List<Coordenada> ubicacionesInicialesNumeros() {
 		List<Coordenada> ubicaciones = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
@@ -61,6 +70,11 @@ public class Tablero {
 	public void cargarNumeros(int fila, int col) {
 		int nuevoNumero = siguienteNumero();
 		this.establecerValorCelda(fila, col, nuevoNumero);
+			}
+	
+	public void cargarSiguienteNumero(int fila, int col) {
+		this.establecerValorCelda(fila, col, this.siguienteNumero);
+		obtenerSiguienteNumero();
 	}
 
 	public static int siguienteNumero() {
@@ -209,7 +223,7 @@ public class Tablero {
 		}
 		if (!columnasLibres.isEmpty()) {
 			int col = elegirAlAzar(columnasLibres);
-			cargarNumeros(fila, col);
+			cargarSiguienteNumero(fila, col);
 		}
 	}
 
@@ -222,7 +236,7 @@ public class Tablero {
 		}
 		if (!filasLibres.isEmpty()) {
 			int fila = elegirAlAzar(filasLibres);
-			cargarNumeros(fila, columna);
+			cargarSiguienteNumero(fila, columna);
 		}
 	}
 

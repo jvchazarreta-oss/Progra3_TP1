@@ -55,7 +55,7 @@ public class Juego {
 	}
 
 	public boolean revisarAlgunaColLlena(int[][] matriz) {
-		boolean esValido = true;
+		
 		for (int i = 0; i < 4; i++) {
 			boolean colLlena = true;
 
