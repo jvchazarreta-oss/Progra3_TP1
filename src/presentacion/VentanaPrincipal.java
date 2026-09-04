@@ -197,6 +197,13 @@ public class VentanaPrincipal {
 				int valor = tablero.obtenerValorDeLaCelda(i, j);
 				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
 
+				// aca puede ponerse un map? asi el switch pasa a tener 2 lineas
+				// 0, (Color(187, 216, 216), Color(80, 60, 100)) <= definir estos colores via
+				// cte y listo
+				// 1, (Color.RED,Color.WHITE)
+				// 2, (Color.BLUE,Color.WHITE)
+				// 3, (Color.WHITE,Color.BLACK)
+				// 3, (Color.WHITE,Color.BLACK)
 				// Seteo colores
 				switch (valor) {
 				case 1: {
