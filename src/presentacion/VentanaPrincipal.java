@@ -70,38 +70,38 @@ public class VentanaPrincipal {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_DOWN: {
-					juego.moverAbajo();
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
+					case KeyEvent.VK_DOWN: {
+						juego.moverAbajo();
+						actualizarTablero();
+						if (juego.juegoTerminado()) {
+							mostrarFinDeJuego();
+						}
+						break;
 					}
-					break;
-				}
-				case KeyEvent.VK_UP: {
-					juego.moverArriba();
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
+					case KeyEvent.VK_UP: {
+						juego.moverArriba();
+						actualizarTablero();
+						if (juego.juegoTerminado()) {
+							mostrarFinDeJuego();
+						}
+						break;
 					}
-					break;
-				}
-				case KeyEvent.VK_LEFT: {
-					juego.moverIzquierda();
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
+					case KeyEvent.VK_LEFT: {
+						juego.moverIzquierda();
+						actualizarTablero();
+						if (juego.juegoTerminado()) {
+							mostrarFinDeJuego();
+						}
+						break;
 					}
-					break;
-				}
-				case KeyEvent.VK_RIGHT: {
-					juego.moverDerecha();
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
+					case KeyEvent.VK_RIGHT: {
+						juego.moverDerecha();
+						actualizarTablero();
+						if (juego.juegoTerminado()) {
+							mostrarFinDeJuego();
+						}
+						break;
 					}
-					break;
-				}
 				}
 
 			}
@@ -192,6 +192,9 @@ public class VentanaPrincipal {
 	private void actualizarTablero() {
 		Tablero tablero = juego.getTablero();
 
+		textFieldProximoNumero.setText(
+				String.valueOf(tablero.obtenerProximoNumero()));
+
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++) {
 				int valor = tablero.obtenerValorDeLaCelda(i, j);
@@ -206,24 +209,24 @@ public class VentanaPrincipal {
 				// 3, (Color.WHITE,Color.BLACK)
 				// Seteo colores
 				switch (valor) {
-				case 1: {
-					celdas[i][j].setBackground(Color.RED);
-					celdas[i][j].setForeground(Color.WHITE);
-					break;
-				}
-				case 2: {
-					celdas[i][j].setBackground(Color.BLUE);
-					celdas[i][j].setForeground(Color.WHITE);
-					break;
-				}
-				default:
-					if (valor >= 3) {
-						celdas[i][j].setBackground(Color.WHITE);
-						celdas[i][j].setForeground(Color.BLACK);
-					} else {
-						celdas[i][j].setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
-						celdas[i][j].setForeground(new Color(80, 60, 100)); // color del texto
+					case 1: {
+						celdas[i][j].setBackground(Color.RED);
+						celdas[i][j].setForeground(Color.WHITE);
+						break;
 					}
+					case 2: {
+						celdas[i][j].setBackground(Color.BLUE);
+						celdas[i][j].setForeground(Color.WHITE);
+						break;
+					}
+					default:
+						if (valor >= 3) {
+							celdas[i][j].setBackground(Color.WHITE);
+							celdas[i][j].setForeground(Color.BLACK);
+						} else {
+							celdas[i][j].setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
+							celdas[i][j].setForeground(new Color(80, 60, 100)); // color del texto
+						}
 				}
 			}
 	}
@@ -246,21 +249,21 @@ public class VentanaPrincipal {
 	private void accionSegunClickDelUsuario(String[] listaOpciones, int eleccion) {
 
 		switch (listaOpciones[eleccion].toString()) {
-		case "Tabla de posiciones": {
-			mostrarTablaDePosiciones();
-			break;
-		}
-		case "Juego nuevo": {
-			juego.nuevoJuego();
-			actualizarTablero();
-			break;
-		}
-		case "Salir a Windows": {
-			System.exit(0);
-		}
+			case "Tabla de posiciones": {
+				mostrarTablaDePosiciones();
+				break;
+			}
+			case "Juego nuevo": {
+				juego.nuevoJuego();
+				actualizarTablero();
+				break;
+			}
+			case "Salir a Windows": {
+				System.exit(0);
+			}
 
-		default:
-			throw new IllegalStateException();
+			default:
+				throw new IllegalStateException();
 		}
 	}
 

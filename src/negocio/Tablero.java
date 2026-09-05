@@ -16,7 +16,7 @@ public class Tablero {
 		this.cantidadDeColumnas = col;
 		this.cantidadDeFilas = fila;
 		this.siguienteNumero = 0;
-		
+
 		cargarTablero();
 	}
 
@@ -50,12 +50,16 @@ public class Tablero {
 			obtenerSiguienteNumero();
 		}
 	}
+
 	public int obtenerSiguienteNumero() {
 		this.siguienteNumero = siguienteNumero();
 		return this.siguienteNumero;
 	}
-	
-	
+
+	public int obtenerProximoNumero() {
+		return this.siguienteNumero;
+	}
+
 	public List<Coordenada> ubicacionesInicialesNumeros() {
 		List<Coordenada> ubicaciones = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
@@ -70,8 +74,8 @@ public class Tablero {
 	public void cargarNumeros(int fila, int col) {
 		int nuevoNumero = siguienteNumero();
 		this.establecerValorCelda(fila, col, nuevoNumero);
-			}
-	
+	}
+
 	public void cargarSiguienteNumero(int fila, int col) {
 		this.establecerValorCelda(fila, col, this.siguienteNumero);
 		obtenerSiguienteNumero();
