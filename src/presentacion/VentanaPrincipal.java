@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import negocio.Juego;
 import negocio.Tablero;
+import negocio.Tablero.Direccion;
 
 public class VentanaPrincipal {
 
@@ -71,7 +72,7 @@ public class VentanaPrincipal {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_DOWN: {
-						juego.moverAbajo();
+						juego.mover(Direccion.ABAJO);
 						actualizarTablero();
 						if (juego.juegoTerminado()) {
 							mostrarFinDeJuego();
@@ -79,7 +80,7 @@ public class VentanaPrincipal {
 						break;
 					}
 					case KeyEvent.VK_UP: {
-						juego.moverArriba();
+						juego.mover(Direccion.ARRIBA);
 						actualizarTablero();
 						if (juego.juegoTerminado()) {
 							mostrarFinDeJuego();
@@ -87,7 +88,7 @@ public class VentanaPrincipal {
 						break;
 					}
 					case KeyEvent.VK_LEFT: {
-						juego.moverIzquierda();
+						juego.mover(Direccion.IZQUIERDA);
 						actualizarTablero();
 						if (juego.juegoTerminado()) {
 							mostrarFinDeJuego();
@@ -95,7 +96,7 @@ public class VentanaPrincipal {
 						break;
 					}
 					case KeyEvent.VK_RIGHT: {
-						juego.moverDerecha();
+						juego.mover(Direccion.DERECHA);
 						actualizarTablero();
 						if (juego.juegoTerminado()) {
 							mostrarFinDeJuego();
@@ -154,33 +155,32 @@ public class VentanaPrincipal {
 		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int numeroDireccion = juego.obtenerSugerencia();
-		        
-		        // 2. Mapeo del tipo de dato primitivo a su representación visual
-		        String flecha;
-		        switch (numeroDireccion) {
-		            case 1: 
-		                flecha = "↑"; 
-		                break;
-		            case 2: 
-		                flecha = "↓"; 
-		                break;
-		            case 3: 
-		                flecha = "←"; 
-		                break;
-		            case 4: 
-		                flecha = "→"; 
-		                break;
-		            default: 
-		                flecha = "-"; // Estado inactivo o error
-		                break;
-		        }
-		        
-		        // 3. Inyección del resultado en el componente gráfico creado en el Paso 1
-		        lblIndicadorSugerencia.setText(flecha);
+
+				// 2. Mapeo del tipo de dato primitivo a su representación visual
+				String flecha;
+				switch (numeroDireccion) {
+					case 1:
+						flecha = "↑";
+						break;
+					case 2:
+						flecha = "↓";
+						break;
+					case 3:
+						flecha = "←";
+						break;
+					case 4:
+						flecha = "→";
+						break;
+					default:
+						flecha = "-"; // Estado inactivo o error
+						break;
+				}
+
+				// 3. Inyección del resultado en el componente gráfico creado en el Paso 1
+				lblIndicadorSugerencia.setText(flecha);
 			}
 		});
-		
-		
+
 		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
 		frmThrees.getContentPane().add(btnSugerenciaProxJugada);
 
@@ -195,7 +195,7 @@ public class VentanaPrincipal {
 		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnReiniciarJuego.setBounds(24, 10, 145, 21);
 		frmThrees.getContentPane().add(btnReiniciarJuego);
-		
+
 		lblIndicadorSugerencia = new JLabel("");
 		lblIndicadorSugerencia.setBackground(new Color(128, 255, 128));
 		lblIndicadorSugerencia.setFont(new Font("Tahoma", Font.PLAIN, 16));

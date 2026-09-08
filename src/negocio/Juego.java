@@ -3,6 +3,8 @@ package negocio;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import negocio.Tablero.Direccion;
+
 public class Juego {
 
 	private Tablero tablero;
@@ -31,17 +33,6 @@ public class Juego {
 		puntajes.sort(Comparator.reverseOrder());
 	}
 
-	public void moverAbajo() {
-		// le delego a tablero
-		tablero.moverAbajo();
-	}
-
-	public void moverArriba() {
-		// le delego a tablero
-		tablero.moverArriba();
-
-	}
-
 	public boolean estaVacio(int fila, int columna) {
 		return tablero.obtenerValorDeLaCelda(fila, columna) == 0;
 	}
@@ -55,7 +46,7 @@ public class Juego {
 	}
 
 	public boolean revisarAlgunaColLlena(int[][] matriz) {
-		
+
 		for (int i = 0; i < 4; i++) {
 			boolean colLlena = true;
 
@@ -99,16 +90,10 @@ public class Juego {
 		}
 	}
 
-	public void moverIzquierda() {
-		tablero.moverIzquierda();
-
+	public boolean mover(Direccion direccion) {
+		return tablero.mover(direccion);
 	}
 
-	public void moverDerecha() {
-
-		tablero.moverDerecha();
-
-	}
 	public int obtenerSugerencia() {
 		return tablero.sugerenciaDeMovimientoConMayorPuntaje();
 	}

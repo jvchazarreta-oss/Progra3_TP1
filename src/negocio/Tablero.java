@@ -87,121 +87,144 @@ public class Tablero {
 		return n;
 	}
 
-	public boolean moverAbajo() {
-		boolean huboCambio = false;
-		int fil = cantidadDeFilas - 1;
-		int col = cantidadDeColumnas - 1;
+	public enum Direccion {
+		ARRIBA, ABAJO, IZQUIERDA, DERECHA
+	}
 
-		for (int j = 0; j <= col; j++) {
-			for (int i = fil - 1; i >= 0; i--) {
-				int valorInicial = matriz[i][j];
-				if (valorInicial != 0) {
-					int valorFinal = matriz[i + 1][j];
-					if (valorFinal == 0) {
-						matriz[i + 1][j] = valorInicial;
-						matriz[i][j] = 0;
-						huboCambio = true;
-					} else if (sePuedenFusionar(valorInicial, valorFinal)) {
-						matriz[i + 1][j] = valorInicial + valorFinal;
-						matriz[i][j] = 0;
-						huboCambio = true;
-					}
-				}
-			}
+	public boolean mover(Direccion direccion) {
+		boolean huboCambio = false;
+
+		switch (direccion) {
+			case ARRIBA:
+				huboCambio = moverVerticalmente(-1);
+				break;
+			case ABAJO:
+				huboCambio = moverVerticalmente(1);
+				break;
+			case IZQUIERDA:
+				huboCambio = moverHorizontalmente(-1);
+				break;
+			case DERECHA:
+				huboCambio = moverHorizontalmente(1);
+				break;
 		}
+
 		if (huboCambio) {
-			agregarFichaEnFilaSiHayLugar(0);
+			agregarFichaSegunDireccion(direccion);
 		}
+
 		return huboCambio;
 	}
 
+	private void agregarFichaSegunDireccion(Direccion direccion) {
+		switch (direccion) {
+			case ARRIBA:
+				agregarFichaEnFilaSiHayLugar(cantidadDeFilas - 1);
+				break;
+			case ABAJO:
+				agregarFichaEnFilaSiHayLugar(0);
+				break;
+			case IZQUIERDA:
+				agregarFichaEnColumnaSiHayLugar(cantidadDeColumnas - 1);
+				break;
+			case DERECHA:
+				agregarFichaEnColumnaSiHayLugar(0);
+				break;
+		}
+	}
+
 	public boolean moverArriba() {
+		return mover(Direccion.ARRIBA);
+	}
+
+	public boolean moverAbajo() {
+		return mover(Direccion.ABAJO);
+	}
+
+	public boolean moverIzquierda() {
+		return mover(Direccion.IZQUIERDA);
+	}
+
+	public boolean moverDerecha() {
+		return mover(Direccion.DERECHA);
+	}
+
+	private boolean moverFicha(int filaInicial, int colInicial,
+			int filaDestino, int colDestino) {
+		int valorInicial = matriz[filaInicial][colInicial];
+		int valorDestino = matriz[filaDestino][colDestino];
+
+		if (valorInicial == 0) {
+			return false;
+		}
+
+		if (valorDestino == 0) {
+			matriz[filaDestino][colDestino] = valorInicial;
+			matriz[filaInicial][colInicial] = 0;
+			return true;
+		}
+
+		if (sePuedenFusionar(valorInicial, valorDestino)) {
+			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
+			matriz[filaInicial][colInicial] = 0;
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean moverVerticalmente(int desplazamiento) {
 		boolean huboCambio = false;
-		int fil = cantidadDeFilas - 1;
-		int col = cantidadDeColumnas - 1;
 
-		for (int j = 0; j <= col; j++) {
-			for (int i = 1; i <= fil; i++) {
-				int valorInicial = matriz[i][j];
-				if (valorInicial != 0) {
-					int valorFinal = matriz[i - 1][j];
-					if (valorFinal == 0) {
-
-						matriz[i - 1][j] = valorInicial;
-						matriz[i][j] = 0;
+		if (desplazamiento < 0) {
+			// Arriba
+			for (int columna = 0; columna < cantidadDeColumnas; columna++) {
+				for (int fila = 1; fila < cantidadDeFilas; fila++) {
+					if (moverFicha(fila, columna, fila - 1, columna)) {
 						huboCambio = true;
-					} else if (sePuedenFusionar(valorInicial, valorFinal)) {
-						matriz[i - 1][j] = valorInicial + valorFinal;
-						matriz[i][j] = 0;
+					}
+				}
+			}
+		} else {
+			// Abajo
+			for (int columna = 0; columna < cantidadDeColumnas; columna++) {
+				for (int fila = cantidadDeFilas - 2; fila >= 0; fila--) {
+					if (moverFicha(fila, columna, fila + 1, columna)) {
 						huboCambio = true;
 					}
 				}
 			}
 		}
-		if (huboCambio) {
-			agregarFichaEnFilaSiHayLugar(fil);
+
+		return huboCambio;
+	}
+
+	private boolean moverHorizontalmente(int desplazamiento) {
+		boolean huboCambio = false;
+
+		for (int fila = 0; fila < cantidadDeFilas; fila++) {
+			if (desplazamiento < 0) {
+				// Izquierda
+				for (int columna = 1; columna < cantidadDeColumnas; columna++) {
+					if (moverFicha(fila, columna, fila, columna - 1)) {
+						huboCambio = true;
+					}
+				}
+			} else {
+				// Derecha
+				for (int columna = cantidadDeColumnas - 2; columna >= 0; columna--) {
+					if (moverFicha(fila, columna, fila, columna + 1)) {
+						huboCambio = true;
+					}
+				}
+			}
 		}
+
 		return huboCambio;
 	}
 
 	public boolean esBordeSuperior(int i, int j) {
 		return i == 1;
-	}
-
-	public boolean moverIzquierda() {
-		boolean huboCambio = false;
-		int fil = cantidadDeFilas - 1;
-		int col = cantidadDeColumnas - 1;
-
-		for (int i = 0; i <= fil; i++) {
-			for (int j = 1; j <= col; j++) {
-				int valorInicial = matriz[i][j];
-				if (valorInicial != 0) {
-					int valorFinal = matriz[i][j - 1];
-					if (valorFinal == 0) {
-						matriz[i][j - 1] = valorInicial;
-						matriz[i][j] = 0;
-						huboCambio = true;
-					} else if (sePuedenFusionar(valorInicial, valorFinal)) {
-						matriz[i][j - 1] = valorInicial + valorFinal;
-						matriz[i][j] = 0;
-						huboCambio = true;
-					}
-				}
-			}
-		}
-		if (huboCambio) {
-			agregarFichaEnColumnaSiHayLugar(col);
-		}
-		return huboCambio;
-	}
-
-	public boolean moverDerecha() {
-		boolean huboCambio = false;
-		int fil = cantidadDeFilas - 1;
-		int col = cantidadDeColumnas - 1;
-
-		for (int i = 0; i <= fil; i++) {
-			for (int j = col - 1; j >= 0; j--) {
-				int valorInicial = matriz[i][j];
-				if (valorInicial != 0) {
-					int valorFinal = matriz[i][j + 1];
-					if (valorFinal == 0) {
-						matriz[i][j] = 0;
-						matriz[i][j + 1] = valorInicial;
-						huboCambio = true;
-					} else if (sePuedenFusionar(valorInicial, valorFinal)) {
-						matriz[i][j + 1] = valorInicial + valorFinal;
-						matriz[i][j] = 0;
-						huboCambio = true;
-					}
-				}
-			}
-		}
-		if (huboCambio) {
-			agregarFichaEnColumnaSiHayLugar(0);
-		}
-		return huboCambio;
 	}
 
 	public boolean sePuedenFusionar(int a, int b) {
@@ -258,7 +281,7 @@ public class Tablero {
 		for (int j = 0; j < cantidadDeColumnas; j++) {
 			for (int i = 1; i < cantidadDeFilas; i++) {
 				int valorActual = matriz[i][j];
-				
+
 				if (valorActual != 0) {
 					int valorArriba = matriz[i - 1][j];
 					if (valorArriba == 0 || sePuedenFusionar(valorActual, valorArriba)) {
@@ -269,6 +292,7 @@ public class Tablero {
 		}
 		return false;
 	}
+
 	public int sugerenciaDeMovimientoConMayorPuntaje() {
 		int movimientoSugerido = 0; // 0: No hay movimiento posible, 1: Arriba, 2: Abajo, 3: Izquierda, 4: Derecha
 		int puntajeMaximo = -1;
@@ -304,6 +328,7 @@ public class Tablero {
 
 		return movimientoSugerido;
 	}
+
 	private int calcularPuntajeMovimiento(int direccion) {
 		Tablero copiaTablero = new Tablero(cantidadDeFilas, cantidadDeColumnas);
 		for (int i = 0; i < cantidadDeFilas; i++) {
@@ -331,7 +356,7 @@ public class Tablero {
 
 		return copiaTablero.obtenerPuntaje();
 	}
-	
+
 	private boolean sePuedeMoverAbajo() {
 		for (int j = 0; j < cantidadDeColumnas; j++) {
 			for (int i = cantidadDeFilas - 2; i >= 0; i--) {
@@ -346,36 +371,37 @@ public class Tablero {
 		}
 		return false;
 	}
-		private boolean sePuedeMoverIzquierda() {
-			for (int i = 0; i < cantidadDeFilas; i++) {
-				for (int j = 1; j < cantidadDeColumnas; j++) {
-					int valorActual = matriz[i][j];
-					if (valorActual != 0) {
-						int valorIzquierda = matriz[i][j - 1];
-						if (valorIzquierda == 0 || sePuedenFusionar(valorActual, valorIzquierda)) {
-							return true;
+
+	private boolean sePuedeMoverIzquierda() {
+		for (int i = 0; i < cantidadDeFilas; i++) {
+			for (int j = 1; j < cantidadDeColumnas; j++) {
+				int valorActual = matriz[i][j];
+				if (valorActual != 0) {
+					int valorIzquierda = matriz[i][j - 1];
+					if (valorIzquierda == 0 || sePuedenFusionar(valorActual, valorIzquierda)) {
+						return true;
 					}
 				}
 			}
-		} return false;
 		}
-		
-		private boolean sePuedeMoverDerecha() {
-			for (int i = 0; i < cantidadDeFilas; i++) {
-				for (int j = cantidadDeColumnas - 2; j >= 0; j--) {
-					int valorActual = matriz[i][j];
-					if (valorActual != 0) {
-						int valorDerecha = matriz[i][j + 1];
-						if (valorDerecha == 0 || sePuedenFusionar(valorActual, valorDerecha)) {
-							return true;
-						}
+		return false;
+	}
+
+	private boolean sePuedeMoverDerecha() {
+		for (int i = 0; i < cantidadDeFilas; i++) {
+			for (int j = cantidadDeColumnas - 2; j >= 0; j--) {
+				int valorActual = matriz[i][j];
+				if (valorActual != 0) {
+					int valorDerecha = matriz[i][j + 1];
+					if (valorDerecha == 0 || sePuedenFusionar(valorActual, valorDerecha)) {
+						return true;
 					}
 				}
 			}
-			return false;
 		}
-		
-	
+		return false;
+	}
+
 	private boolean hayFusionPosible() {
 		for (int i = 0; i < cantidadDeFilas; i++) {
 			for (int j = 0; j < cantidadDeColumnas; j++) {
