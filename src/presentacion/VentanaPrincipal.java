@@ -25,7 +25,7 @@ public class VentanaPrincipal {
 
 	private JFrame frmThrees;
 	private JLabel lblInstrucciones;
-
+	private JLabel lblIndicadorSugerencia;
 	// armo matriz de celdas
 	private JLabel[][] celdas = new JLabel[4][4];
 
@@ -153,8 +153,34 @@ public class VentanaPrincipal {
 		btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int numeroDireccion = juego.obtenerSugerencia();
+		        
+		        // 2. Mapeo del tipo de dato primitivo a su representación visual
+		        String flecha;
+		        switch (numeroDireccion) {
+		            case 1: 
+		                flecha = "↑"; 
+		                break;
+		            case 2: 
+		                flecha = "↓"; 
+		                break;
+		            case 3: 
+		                flecha = "←"; 
+		                break;
+		            case 4: 
+		                flecha = "→"; 
+		                break;
+		            default: 
+		                flecha = "-"; // Estado inactivo o error
+		                break;
+		        }
+		        
+		        // 3. Inyección del resultado en el componente gráfico creado en el Paso 1
+		        lblIndicadorSugerencia.setText(flecha);
 			}
 		});
+		
+		
 		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
 		frmThrees.getContentPane().add(btnSugerenciaProxJugada);
 
@@ -169,6 +195,12 @@ public class VentanaPrincipal {
 		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnReiniciarJuego.setBounds(24, 10, 145, 21);
 		frmThrees.getContentPane().add(btnReiniciarJuego);
+		
+		lblIndicadorSugerencia = new JLabel("");
+		lblIndicadorSugerencia.setBackground(new Color(128, 255, 128));
+		lblIndicadorSugerencia.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblIndicadorSugerencia.setBounds(420, 10, 75, 27);
+		frmThrees.getContentPane().add(lblIndicadorSugerencia);
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {

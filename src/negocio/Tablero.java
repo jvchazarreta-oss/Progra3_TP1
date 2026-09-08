@@ -254,6 +254,128 @@ public class Tablero {
 		return false;
 	}
 
+	private boolean sePuedeMoverArriba() {
+		for (int j = 0; j < cantidadDeColumnas; j++) {
+			for (int i = 1; i < cantidadDeFilas; i++) {
+				int valorActual = matriz[i][j];
+				
+				if (valorActual != 0) {
+					int valorArriba = matriz[i - 1][j];
+					if (valorArriba == 0 || sePuedenFusionar(valorActual, valorArriba)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public int sugerenciaDeMovimientoConMayorPuntaje() {
+		int movimientoSugerido = 0; // 0: No hay movimiento posible, 1: Arriba, 2: Abajo, 3: Izquierda, 4: Derecha
+		int puntajeMaximo = -1;
+
+		if (sePuedeMoverArriba()) {
+			int puntajeArriba = calcularPuntajeMovimiento(1);
+			if (puntajeArriba > puntajeMaximo) {
+				puntajeMaximo = puntajeArriba;
+				movimientoSugerido = 1; // Arriba
+			}
+		}
+		if (sePuedeMoverAbajo()) {
+			int puntajeAbajo = calcularPuntajeMovimiento(2);
+			if (puntajeAbajo > puntajeMaximo) {
+				puntajeMaximo = puntajeAbajo;
+				movimientoSugerido = 2; // Abajo
+			}
+		}
+		if (sePuedeMoverIzquierda()) {
+			int puntajeIzquierda = calcularPuntajeMovimiento(3);
+			if (puntajeIzquierda > puntajeMaximo) {
+				puntajeMaximo = puntajeIzquierda;
+				movimientoSugerido = 3; // Izquierda
+			}
+		}
+		if (sePuedeMoverDerecha()) {
+			int puntajeDerecha = calcularPuntajeMovimiento(4);
+			if (puntajeDerecha > puntajeMaximo) {
+				puntajeMaximo = puntajeDerecha;
+				movimientoSugerido = 4; // Derecha
+			}
+		}
+
+		return movimientoSugerido;
+	}
+	private int calcularPuntajeMovimiento(int direccion) {
+		Tablero copiaTablero = new Tablero(cantidadDeFilas, cantidadDeColumnas);
+		for (int i = 0; i < cantidadDeFilas; i++) {
+			for (int j = 0; j < cantidadDeColumnas; j++) {
+				copiaTablero.establecerValorCelda(i, j, matriz[i][j]);
+			}
+		}
+
+		switch (direccion) {
+			case 1:
+				copiaTablero.moverArriba();
+				break;
+			case 2:
+				copiaTablero.moverAbajo();
+				break;
+			case 3:
+				copiaTablero.moverIzquierda();
+				break;
+			case 4:
+				copiaTablero.moverDerecha();
+				break;
+			default:
+				return -1; // Dirección inválida
+		}
+
+		return copiaTablero.obtenerPuntaje();
+	}
+	
+	private boolean sePuedeMoverAbajo() {
+		for (int j = 0; j < cantidadDeColumnas; j++) {
+			for (int i = cantidadDeFilas - 2; i >= 0; i--) {
+				int valorActual = matriz[i][j];
+				if (valorActual != 0) {
+					int valorAbajo = matriz[i + 1][j];
+					if (valorAbajo == 0 || sePuedenFusionar(valorActual, valorAbajo)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+		private boolean sePuedeMoverIzquierda() {
+			for (int i = 0; i < cantidadDeFilas; i++) {
+				for (int j = 1; j < cantidadDeColumnas; j++) {
+					int valorActual = matriz[i][j];
+					if (valorActual != 0) {
+						int valorIzquierda = matriz[i][j - 1];
+						if (valorIzquierda == 0 || sePuedenFusionar(valorActual, valorIzquierda)) {
+							return true;
+					}
+				}
+			}
+		} return false;
+		}
+		
+		private boolean sePuedeMoverDerecha() {
+			for (int i = 0; i < cantidadDeFilas; i++) {
+				for (int j = cantidadDeColumnas - 2; j >= 0; j--) {
+					int valorActual = matriz[i][j];
+					if (valorActual != 0) {
+						int valorDerecha = matriz[i][j + 1];
+						if (valorDerecha == 0 || sePuedenFusionar(valorActual, valorDerecha)) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+		
+	
 	private boolean hayFusionPosible() {
 		for (int i = 0; i < cantidadDeFilas; i++) {
 			for (int j = 0; j < cantidadDeColumnas; j++) {

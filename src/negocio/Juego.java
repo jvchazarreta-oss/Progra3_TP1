@@ -109,6 +109,9 @@ public class Juego {
 		tablero.moverDerecha();
 
 	}
+	public int obtenerSugerencia() {
+		return tablero.sugerenciaDeMovimientoConMayorPuntaje();
+	}
 
 	public boolean juegoTerminado() {
 		if (tablero.juegoTerminado()) {
