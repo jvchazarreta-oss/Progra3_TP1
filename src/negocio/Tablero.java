@@ -1,23 +1,33 @@
 package negocio;
 
+import static constantes.Constantes.CANTIDAD_COLUMNAS;
+import static constantes.Constantes.CANTIDAD_FILAS;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class Tablero {
+	private static final int CANTIDAD_FICHAS_INICIALES = 9;
+	private static final int VALOR_CELDA_UMBRAL_SUMA_PUNTAJE = 3;
+
 	private int[][] matriz;
-	private int cantidadDeColumnas;
-	private int cantidadDeFilas;
+	private int cantidadColumnas;
+	private int cantidadFilas;
 	private int siguienteNumero;
 
 	public Tablero(int fila, int col) {
 		this.matriz = new int[fila][col];
-		this.cantidadDeColumnas = col;
-		this.cantidadDeFilas = fila;
+		this.cantidadColumnas = col;
+		this.cantidadFilas = fila;
 		this.siguienteNumero = 0;
 
 		cargarTablero();
+	}
+
+	public enum Direccion {
+		ARRIBA, ABAJO, IZQUIERDA, DERECHA
 	}
 
 	public int[][] obtenerTablero() {
@@ -25,11 +35,11 @@ public class Tablero {
 	}
 
 	public int obtenerFilas() {
-		return this.cantidadDeFilas;
+		return this.cantidadFilas;
 	}
 
 	public int obtenerCol() {
-		return this.cantidadDeColumnas;
+		return this.cantidadColumnas;
 	}
 
 	public void establecerValorCelda(int fila, int col, int valor) {
@@ -62,13 +72,13 @@ public class Tablero {
 
 	public List<Coordenada> ubicacionesInicialesNumeros() {
 		List<Coordenada> ubicaciones = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < CANTIDAD_FILAS; i++) {
+			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
 				ubicaciones.add(new Coordenada(i, j));
 			}
 		}
 		Collections.shuffle(ubicaciones);
-		return ubicaciones.subList(0, 9);
+		return ubicaciones.subList(0, CANTIDAD_FICHAS_INICIALES);
 	}
 
 	public void cargarNumeros(int fila, int col) {
@@ -87,26 +97,22 @@ public class Tablero {
 		return n;
 	}
 
-	public enum Direccion {
-		ARRIBA, ABAJO, IZQUIERDA, DERECHA
-	}
-
 	public boolean mover(Direccion direccion) {
 		boolean huboCambio = false;
 
 		switch (direccion) {
-			case ARRIBA:
-				huboCambio = moverVerticalmente(-1);
-				break;
-			case ABAJO:
-				huboCambio = moverVerticalmente(1);
-				break;
-			case IZQUIERDA:
-				huboCambio = moverHorizontalmente(-1);
-				break;
-			case DERECHA:
-				huboCambio = moverHorizontalmente(1);
-				break;
+		case ARRIBA:
+			huboCambio = moverVerticalmente(-1);
+			break;
+		case ABAJO:
+			huboCambio = moverVerticalmente(1);
+			break;
+		case IZQUIERDA:
+			huboCambio = moverHorizontalmente(-1);
+			break;
+		case DERECHA:
+			huboCambio = moverHorizontalmente(1);
+			break;
 		}
 
 		if (huboCambio) {
@@ -118,18 +124,18 @@ public class Tablero {
 
 	private void agregarFichaSegunDireccion(Direccion direccion) {
 		switch (direccion) {
-			case ARRIBA:
-				agregarFichaEnFilaSiHayLugar(cantidadDeFilas - 1);
-				break;
-			case ABAJO:
-				agregarFichaEnFilaSiHayLugar(0);
-				break;
-			case IZQUIERDA:
-				agregarFichaEnColumnaSiHayLugar(cantidadDeColumnas - 1);
-				break;
-			case DERECHA:
-				agregarFichaEnColumnaSiHayLugar(0);
-				break;
+		case ARRIBA:
+			agregarFichaEnFilaSiHayLugar(cantidadFilas - 1);
+			break;
+		case ABAJO:
+			agregarFichaEnFilaSiHayLugar(0);
+			break;
+		case IZQUIERDA:
+			agregarFichaEnColumnaSiHayLugar(cantidadColumnas - 1);
+			break;
+		case DERECHA:
+			agregarFichaEnColumnaSiHayLugar(0);
+			break;
 		}
 	}
 
@@ -149,8 +155,7 @@ public class Tablero {
 		return mover(Direccion.DERECHA);
 	}
 
-	private boolean moverFicha(int filaInicial, int colInicial,
-			int filaDestino, int colDestino) {
+	private boolean moverFicha(int filaInicial, int colInicial, int filaDestino, int colDestino) {
 		int valorInicial = matriz[filaInicial][colInicial];
 		int valorDestino = matriz[filaDestino][colDestino];
 
@@ -178,8 +183,8 @@ public class Tablero {
 
 		if (desplazamiento < 0) {
 			// Arriba
-			for (int columna = 0; columna < cantidadDeColumnas; columna++) {
-				for (int fila = 1; fila < cantidadDeFilas; fila++) {
+			for (int columna = 0; columna < cantidadColumnas; columna++) {
+				for (int fila = 1; fila < cantidadFilas; fila++) {
 					if (moverFicha(fila, columna, fila - 1, columna)) {
 						huboCambio = true;
 					}
@@ -187,8 +192,8 @@ public class Tablero {
 			}
 		} else {
 			// Abajo
-			for (int columna = 0; columna < cantidadDeColumnas; columna++) {
-				for (int fila = cantidadDeFilas - 2; fila >= 0; fila--) {
+			for (int columna = 0; columna < cantidadColumnas; columna++) {
+				for (int fila = cantidadFilas - 2; fila >= 0; fila--) {
 					if (moverFicha(fila, columna, fila + 1, columna)) {
 						huboCambio = true;
 					}
@@ -202,17 +207,17 @@ public class Tablero {
 	private boolean moverHorizontalmente(int desplazamiento) {
 		boolean huboCambio = false;
 
-		for (int fila = 0; fila < cantidadDeFilas; fila++) {
+		for (int fila = 0; fila < cantidadFilas; fila++) {
 			if (desplazamiento < 0) {
 				// Izquierda
-				for (int columna = 1; columna < cantidadDeColumnas; columna++) {
+				for (int columna = 1; columna < cantidadColumnas; columna++) {
 					if (moverFicha(fila, columna, fila, columna - 1)) {
 						huboCambio = true;
 					}
 				}
 			} else {
 				// Derecha
-				for (int columna = cantidadDeColumnas - 2; columna >= 0; columna--) {
+				for (int columna = cantidadColumnas - 2; columna >= 0; columna--) {
 					if (moverFicha(fila, columna, fila, columna + 1)) {
 						huboCambio = true;
 					}
@@ -223,16 +228,11 @@ public class Tablero {
 		return huboCambio;
 	}
 
-	public boolean esBordeSuperior(int i, int j) {
-		return i == 1;
-	}
-
 	public boolean sePuedenFusionar(int a, int b) {
-		if (((a == b) && (a >= 3)) || (a == 1 && b == 2) || (a == 2 && b == 1)) {
-			return true;
-		} else {
-			return false;
-		}
+		boolean sonIgualesYMayoresA3 = (a == b) && (a >= 3);
+		boolean sonUnoYDos = (a == 1 && b == 2) || (a == 2 && b == 1);
+
+		return sonIgualesYMayoresA3 || sonUnoYDos;
 	}
 
 	private int elegirAlAzar(List<Integer> opciones) {
@@ -243,7 +243,7 @@ public class Tablero {
 
 	private void agregarFichaEnFilaSiHayLugar(int fila) {
 		List<Integer> columnasLibres = new ArrayList<>();
-		for (int j = 0; j < cantidadDeColumnas; j++) {
+		for (int j = 0; j < cantidadColumnas; j++) {
 			if (matriz[fila][j] == 0) {
 				columnasLibres.add(j);
 			}
@@ -256,7 +256,7 @@ public class Tablero {
 
 	private void agregarFichaEnColumnaSiHayLugar(int columna) {
 		List<Integer> filasLibres = new ArrayList<>();
-		for (int i = 0; i < cantidadDeFilas; i++) {
+		for (int i = 0; i < cantidadFilas; i++) {
 			if (matriz[i][columna] == 0) {
 				filasLibres.add(i);
 			}
@@ -268,8 +268,8 @@ public class Tablero {
 	}
 
 	private boolean hayCeldaVacia() {
-		for (int i = 0; i < cantidadDeFilas; i++) {
-			for (int j = 0; j < cantidadDeColumnas; j++) {
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
 				if (matriz[i][j] == 0)
 					return true;
 			}
@@ -278,8 +278,8 @@ public class Tablero {
 	}
 
 	private boolean sePuedeMoverArriba() {
-		for (int j = 0; j < cantidadDeColumnas; j++) {
-			for (int i = 1; i < cantidadDeFilas; i++) {
+		for (int j = 0; j < cantidadColumnas; j++) {
+			for (int i = 1; i < cantidadFilas; i++) {
 				int valorActual = matriz[i][j];
 
 				if (valorActual != 0) {
@@ -330,36 +330,36 @@ public class Tablero {
 	}
 
 	private int calcularPuntajeMovimiento(int direccion) {
-		Tablero copiaTablero = new Tablero(cantidadDeFilas, cantidadDeColumnas);
-		for (int i = 0; i < cantidadDeFilas; i++) {
-			for (int j = 0; j < cantidadDeColumnas; j++) {
+		Tablero copiaTablero = new Tablero(cantidadFilas, cantidadColumnas);
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
 				copiaTablero.establecerValorCelda(i, j, matriz[i][j]);
 			}
 		}
 
 		switch (direccion) {
-			case 1:
-				copiaTablero.moverArriba();
-				break;
-			case 2:
-				copiaTablero.moverAbajo();
-				break;
-			case 3:
-				copiaTablero.moverIzquierda();
-				break;
-			case 4:
-				copiaTablero.moverDerecha();
-				break;
-			default:
-				return -1; // Dirección inválida
+		case 1:
+			copiaTablero.moverArriba();
+			break;
+		case 2:
+			copiaTablero.moverAbajo();
+			break;
+		case 3:
+			copiaTablero.moverIzquierda();
+			break;
+		case 4:
+			copiaTablero.moverDerecha();
+			break;
+		default:
+			return -1; // Dirección inválida
 		}
 
 		return copiaTablero.obtenerPuntaje();
 	}
 
 	private boolean sePuedeMoverAbajo() {
-		for (int j = 0; j < cantidadDeColumnas; j++) {
-			for (int i = cantidadDeFilas - 2; i >= 0; i--) {
+		for (int j = 0; j < cantidadColumnas; j++) {
+			for (int i = cantidadFilas - 2; i >= 0; i--) {
 				int valorActual = matriz[i][j];
 				if (valorActual != 0) {
 					int valorAbajo = matriz[i + 1][j];
@@ -373,8 +373,8 @@ public class Tablero {
 	}
 
 	private boolean sePuedeMoverIzquierda() {
-		for (int i = 0; i < cantidadDeFilas; i++) {
-			for (int j = 1; j < cantidadDeColumnas; j++) {
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 1; j < cantidadColumnas; j++) {
 				int valorActual = matriz[i][j];
 				if (valorActual != 0) {
 					int valorIzquierda = matriz[i][j - 1];
@@ -388,8 +388,8 @@ public class Tablero {
 	}
 
 	private boolean sePuedeMoverDerecha() {
-		for (int i = 0; i < cantidadDeFilas; i++) {
-			for (int j = cantidadDeColumnas - 2; j >= 0; j--) {
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = cantidadColumnas - 2; j >= 0; j--) {
 				int valorActual = matriz[i][j];
 				if (valorActual != 0) {
 					int valorDerecha = matriz[i][j + 1];
@@ -403,14 +403,14 @@ public class Tablero {
 	}
 
 	private boolean hayFusionPosible() {
-		for (int i = 0; i < cantidadDeFilas; i++) {
-			for (int j = 0; j < cantidadDeColumnas; j++) {
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
 				int actual = matriz[i][j];
 				if (actual == 0)
 					continue;
-				if (j + 1 < cantidadDeColumnas && sePuedenFusionar(actual, matriz[i][j + 1]))
+				if (j + 1 < cantidadColumnas && sePuedenFusionar(actual, matriz[i][j + 1]))
 					return true;
-				if (i + 1 < cantidadDeFilas && sePuedenFusionar(actual, matriz[i + 1][j]))
+				if (i + 1 < cantidadFilas && sePuedenFusionar(actual, matriz[i + 1][j]))
 					return true;
 			}
 		}
@@ -423,9 +423,9 @@ public class Tablero {
 
 	public int obtenerPuntaje() {
 		int puntajeTotal = 0;
-		for (int i = 0; i < cantidadDeFilas; i++)
-			for (int j = 0; j < cantidadDeColumnas; j++)
-				if (matriz[i][j] >= 3)
+		for (int i = 0; i < cantidadFilas; i++)
+			for (int j = 0; j < cantidadColumnas; j++)
+				if (matriz[i][j] >= VALOR_CELDA_UMBRAL_SUMA_PUNTAJE)
 					puntajeTotal += matriz[i][j];
 		return puntajeTotal;
 	}

@@ -1,5 +1,8 @@
 package negocio;
 
+import static constantes.Constantes.CANTIDAD_COLUMNAS;
+import static constantes.Constantes.CANTIDAD_FILAS;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -11,7 +14,7 @@ public class Juego {
 	private ArrayList<Integer> puntajes;
 
 	public Juego() {
-		this.tablero = new Tablero(4, 4);
+		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS);
 		this.puntajes = new ArrayList<Integer>();
 	}
 
@@ -45,45 +48,9 @@ public class Juego {
 		return tablero;
 	}
 
-	public boolean revisarAlgunaColLlena(int[][] matriz) {
-
-		for (int i = 0; i < 4; i++) {
-			boolean colLlena = true;
-
-			for (int j = 0; j < 4; j++) {
-				if (matriz[j][i] == 0) {
-					colLlena = false;
-					break;
-				}
-			}
-			if (colLlena) {
-				return true;
-			}
-		}
-		return false;
-
-	}
-
-	public boolean revisarAlgunaFilaLlena(int[][] matriz) {
-		for (int i = 0; i < 4; i++) {
-			boolean filaLlena = true;
-
-			for (int j = 0; j < 4; j++) {
-				if (matriz[i][j] == 0) {
-					filaLlena = false;
-					break;
-				}
-			}
-			if (filaLlena) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void mostrarTableroPorConsola() {
-		for (int fila = 0; fila < 4; fila++) {
-			for (int col = 0; col < 4; col++) {
+		for (int fila = 0; fila < CANTIDAD_FILAS; fila++) {
+			for (int col = 0; col < CANTIDAD_COLUMNAS; col++) {
 				System.out.print(tablero.obtenerValorDeLaCelda(fila, col) + " ");
 			}
 			System.out.println("");
@@ -107,7 +74,7 @@ public class Juego {
 	}
 
 	public void nuevoJuego() {
-		this.tablero = new Tablero(4, 4);
+		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS);
 	}
 
 }

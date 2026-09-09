@@ -1,5 +1,8 @@
 package presentacion;
 
+import static constantes.Constantes.CANTIDAD_COLUMNAS;
+import static constantes.Constantes.CANTIDAD_FILAS;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -24,11 +27,13 @@ import negocio.Tablero.Direccion;
 
 public class VentanaPrincipal {
 
+	private static final Color COLOR_DE_FONDO_CELDA = new Color(187, 216, 216);
+
 	private JFrame frmThrees;
 	private JLabel lblInstrucciones;
 	private JLabel lblIndicadorSugerencia;
-	// armo matriz de celdas
-	private JLabel[][] celdas = new JLabel[4][4];
+
+	private JLabel[][] celdas = new JLabel[CANTIDAD_FILAS][CANTIDAD_COLUMNAS];
 
 	private Juego juego = new Juego();
 
@@ -71,38 +76,38 @@ public class VentanaPrincipal {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
-					case KeyEvent.VK_DOWN: {
-						juego.mover(Direccion.ABAJO);
-						actualizarTablero();
-						if (juego.juegoTerminado()) {
-							mostrarFinDeJuego();
-						}
-						break;
+				case KeyEvent.VK_DOWN: {
+					juego.mover(Direccion.ABAJO);
+					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						mostrarFinDeJuego();
 					}
-					case KeyEvent.VK_UP: {
-						juego.mover(Direccion.ARRIBA);
-						actualizarTablero();
-						if (juego.juegoTerminado()) {
-							mostrarFinDeJuego();
-						}
-						break;
+					break;
+				}
+				case KeyEvent.VK_UP: {
+					juego.mover(Direccion.ARRIBA);
+					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						mostrarFinDeJuego();
 					}
-					case KeyEvent.VK_LEFT: {
-						juego.mover(Direccion.IZQUIERDA);
-						actualizarTablero();
-						if (juego.juegoTerminado()) {
-							mostrarFinDeJuego();
-						}
-						break;
+					break;
+				}
+				case KeyEvent.VK_LEFT: {
+					juego.mover(Direccion.IZQUIERDA);
+					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						mostrarFinDeJuego();
 					}
-					case KeyEvent.VK_RIGHT: {
-						juego.mover(Direccion.DERECHA);
-						actualizarTablero();
-						if (juego.juegoTerminado()) {
-							mostrarFinDeJuego();
-						}
-						break;
+					break;
+				}
+				case KeyEvent.VK_RIGHT: {
+					juego.mover(Direccion.DERECHA);
+					actualizarTablero();
+					if (juego.juegoTerminado()) {
+						mostrarFinDeJuego();
 					}
+					break;
+				}
 				}
 
 			}
@@ -135,6 +140,7 @@ public class VentanaPrincipal {
 		btnTablaHistorica.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		btnTablaHistorica.setBounds(24, 42, 171, 21);
+		btnTablaHistorica.setFocusable(false);
 		frmThrees.getContentPane().add(btnTablaHistorica);
 
 		JLabel lblProximoNumero = new JLabel("Próximo");
@@ -159,29 +165,31 @@ public class VentanaPrincipal {
 				// 2. Mapeo del tipo de dato primitivo a su representación visual
 				String flecha;
 				switch (numeroDireccion) {
-					case 1:
-						flecha = "↑";
-						break;
-					case 2:
-						flecha = "↓";
-						break;
-					case 3:
-						flecha = "←";
-						break;
-					case 4:
-						flecha = "→";
-						break;
-					default:
-						flecha = "-"; // Estado inactivo o error
-						break;
+				case 1:
+					flecha = "↑";
+					break;
+				case 2:
+					flecha = "↓";
+					break;
+				case 3:
+					flecha = "←";
+					break;
+				case 4:
+					flecha = "→";
+					break;
+				default:
+					flecha = "-"; // Estado inactivo o error
+					break;
 				}
 
 				// 3. Inyección del resultado en el componente gráfico creado en el Paso 1
 				lblIndicadorSugerencia.setText(flecha);
+
 			}
 		});
 
 		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
+		btnSugerenciaProxJugada.setFocusable(false);
 		frmThrees.getContentPane().add(btnSugerenciaProxJugada);
 
 		JButton btnReiniciarJuego = new JButton("Reiniciar juego");
@@ -194,6 +202,7 @@ public class VentanaPrincipal {
 		btnReiniciarJuego.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnReiniciarJuego.setBounds(24, 10, 145, 21);
+		btnReiniciarJuego.setFocusable(false);
 		frmThrees.getContentPane().add(btnReiniciarJuego);
 
 		lblIndicadorSugerencia = new JLabel("");
@@ -202,13 +211,12 @@ public class VentanaPrincipal {
 		lblIndicadorSugerencia.setBounds(420, 10, 75, 27);
 		frmThrees.getContentPane().add(lblIndicadorSugerencia);
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < CANTIDAD_FILAS; i++) {
+			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
 				JLabel labelCelda = new JLabel("0", SwingConstants.CENTER);
 				labelCelda.setOpaque(true);
-				labelCelda.setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
-				labelCelda.setForeground(new Color(80, 60, 100)); // color del texto
-				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16)); // acá el cambio
+				labelCelda.setBackground(COLOR_DE_FONDO_CELDA);
+				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16));
 
 				celdas[i][j] = labelCelda;
 				panelTablero.add(labelCelda);
@@ -224,41 +232,31 @@ public class VentanaPrincipal {
 	private void actualizarTablero() {
 		Tablero tablero = juego.getTablero();
 
-		textFieldProximoNumero.setText(
-				String.valueOf(tablero.obtenerProximoNumero()));
+		textFieldProximoNumero.setText(String.valueOf(tablero.obtenerProximoNumero()));
 
-		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < CANTIDAD_FILAS; i++)
+			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
 				int valor = tablero.obtenerValorDeLaCelda(i, j);
 				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
 
-				// TODO:
-				// poner un map: asi el switch pasa a tener 2 lineas
-				// 0, (Color(187, 216, 216), Color(80, 60, 100)) <= definir estos colores via
-				// cte y listo
-				// 1, (Color.RED,Color.WHITE)
-				// 2, (Color.BLUE,Color.WHITE)
-				// 3, (Color.WHITE,Color.BLACK)
-				// Seteo colores
 				switch (valor) {
-					case 1: {
-						celdas[i][j].setBackground(Color.RED);
-						celdas[i][j].setForeground(Color.WHITE);
-						break;
+				case 1: {
+					celdas[i][j].setBackground(Color.RED);
+					celdas[i][j].setForeground(Color.WHITE);
+					break;
+				}
+				case 2: {
+					celdas[i][j].setBackground(Color.BLUE);
+					celdas[i][j].setForeground(Color.WHITE);
+					break;
+				}
+				default:
+					if (valor >= 3) {
+						celdas[i][j].setBackground(Color.WHITE);
+						celdas[i][j].setForeground(Color.BLACK);
+					} else {
+						celdas[i][j].setBackground(COLOR_DE_FONDO_CELDA);
 					}
-					case 2: {
-						celdas[i][j].setBackground(Color.BLUE);
-						celdas[i][j].setForeground(Color.WHITE);
-						break;
-					}
-					default:
-						if (valor >= 3) {
-							celdas[i][j].setBackground(Color.WHITE);
-							celdas[i][j].setForeground(Color.BLACK);
-						} else {
-							celdas[i][j].setBackground(new Color(187, 216, 216)); // mas oscuro que el panel
-							celdas[i][j].setForeground(new Color(80, 60, 100)); // color del texto
-						}
 				}
 			}
 	}
@@ -281,21 +279,21 @@ public class VentanaPrincipal {
 	private void accionSegunClickDelUsuario(String[] listaOpciones, int eleccion) {
 
 		switch (listaOpciones[eleccion].toString()) {
-			case "Tabla de posiciones": {
-				mostrarTablaDePosiciones();
-				break;
-			}
-			case "Juego nuevo": {
-				juego.nuevoJuego();
-				actualizarTablero();
-				break;
-			}
-			case "Salir a Windows": {
-				System.exit(0);
-			}
+		case "Tabla de posiciones": {
+			mostrarTablaDePosiciones();
+			break;
+		}
+		case "Juego nuevo": {
+			juego.nuevoJuego();
+			actualizarTablero();
+			break;
+		}
+		case "Salir a Windows": {
+			System.exit(0);
+		}
 
-			default:
-				throw new IllegalStateException();
+		default:
+			throw new IllegalStateException();
 		}
 	}
 
