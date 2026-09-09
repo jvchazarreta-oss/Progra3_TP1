@@ -75,43 +75,8 @@ public class VentanaPrincipal {
 		frmThrees.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_DOWN: {
-					juego.mover(Direccion.ABAJO);
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
-					}
-					break;
-				}
-				case KeyEvent.VK_UP: {
-					juego.mover(Direccion.ARRIBA);
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
-					}
-					break;
-				}
-				case KeyEvent.VK_LEFT: {
-					juego.mover(Direccion.IZQUIERDA);
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
-					}
-					break;
-				}
-				case KeyEvent.VK_RIGHT: {
-					juego.mover(Direccion.DERECHA);
-					actualizarTablero();
-					if (juego.juegoTerminado()) {
-						mostrarFinDeJuego();
-					}
-					break;
-				}
-				}
-
+				moverSegunTecla(e);
 			}
-
 		});
 		frmThrees.setBounds(100, 100, 594, 446);
 		frmThrees.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -223,7 +188,7 @@ public class VentanaPrincipal {
 			}
 		}
 
-		// vuelvo a recorrer otra vez la matriz, no importa me parece porq O(n**2) +
+		// vuelvo a recorrer otra vez la matriz, no importa porque O(n**2) +
 		// O(n**2) es O(n**2)
 		actualizarTablero();
 
@@ -300,5 +265,42 @@ public class VentanaPrincipal {
 	private void mostrarTablaDePosiciones() {
 		TablaDePosiciones frmTabla = new TablaDePosiciones(juego);
 		frmTabla.frmTablaDePosiciones.setVisible(true);
+	}
+
+	private void moverSegunTecla(KeyEvent eventoTecla) {
+		switch (eventoTecla.getKeyCode()) {
+		case KeyEvent.VK_DOWN: {
+			juego.mover(Direccion.ABAJO);
+			actualizarTablero();
+			if (juego.juegoTerminado()) {
+				mostrarFinDeJuego();
+			}
+			break;
+		}
+		case KeyEvent.VK_UP: {
+			juego.mover(Direccion.ARRIBA);
+			actualizarTablero();
+			if (juego.juegoTerminado()) {
+				mostrarFinDeJuego();
+			}
+			break;
+		}
+		case KeyEvent.VK_LEFT: {
+			juego.mover(Direccion.IZQUIERDA);
+			actualizarTablero();
+			if (juego.juegoTerminado()) {
+				mostrarFinDeJuego();
+			}
+			break;
+		}
+		case KeyEvent.VK_RIGHT: {
+			juego.mover(Direccion.DERECHA);
+			actualizarTablero();
+			if (juego.juegoTerminado()) {
+				mostrarFinDeJuego();
+			}
+			break;
+		}
+		}
 	}
 }
