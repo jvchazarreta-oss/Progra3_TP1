@@ -18,17 +18,13 @@ public class TablaDePosiciones {
 	private JTable table;
 	private Juego juego;
 
-	/**
-	 * Create the application.
-	 */
+	
 	public TablaDePosiciones(Juego juego) {
 		this.juego = juego;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	private void initialize() {
 		frmTablaDePosiciones = new JFrame();
 		frmTablaDePosiciones.setTitle("Tabla de posiciones");

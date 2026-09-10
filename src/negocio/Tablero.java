@@ -16,7 +16,8 @@ public class Tablero {
 	private int cantidadColumnas;
 	private int cantidadFilas;
 	private int siguienteNumero;
-
+	private int puntaje;
+	
 	public Tablero(int fila, int col) {
 		this.matriz = new int[fila][col];
 		this.cantidadColumnas = col;
@@ -96,8 +97,10 @@ public class Tablero {
 		int n = aleatorio.nextInt(1, 4);
 		return n;
 	}
-
 	public boolean mover(Direccion direccion) {
+		return mover(direccion, false);
+	}
+	public boolean mover(Direccion direccion, boolean esSugerencia) {
 		boolean huboCambio = false;
 
 		switch (direccion) {
@@ -115,7 +118,7 @@ public class Tablero {
 			break;
 		}
 
-		if (huboCambio) {
+		if (huboCambio && !esSugerencia) {
 			agregarFichaSegunDireccion(direccion);
 		}
 
@@ -140,19 +143,19 @@ public class Tablero {
 	}
 
 	public boolean moverArriba() {
-		return mover(Direccion.ARRIBA);
+		return mover(Direccion.ARRIBA,false);
 	}
 
 	public boolean moverAbajo() {
-		return mover(Direccion.ABAJO);
+		return mover(Direccion.ABAJO,false);
 	}
 
 	public boolean moverIzquierda() {
-		return mover(Direccion.IZQUIERDA);
+		return mover(Direccion.IZQUIERDA,false);
 	}
 
 	public boolean moverDerecha() {
-		return mover(Direccion.DERECHA);
+		return mover(Direccion.DERECHA,false);
 	}
 
 	private boolean moverFicha(int filaInicial, int colInicial, int filaDestino, int colDestino) {
@@ -172,6 +175,7 @@ public class Tablero {
 		if (sePuedenFusionar(valorInicial, valorDestino)) {
 			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
 			matriz[filaInicial][colInicial] = 0;
+			puntaje = puntaje + matriz[filaDestino][colDestino] ;
 			return true;
 		}
 
@@ -339,16 +343,16 @@ public class Tablero {
 
 		switch (direccion) {
 		case 1:
-			copiaTablero.moverArriba();
+			copiaTablero.mover(Direccion.ARRIBA, true);
 			break;
 		case 2:
-			copiaTablero.moverAbajo();
+			copiaTablero.mover(Direccion.ABAJO, true);
 			break;
 		case 3:
-			copiaTablero.moverIzquierda();
+			copiaTablero.mover(Direccion.IZQUIERDA, true);
 			break;
 		case 4:
-			copiaTablero.moverDerecha();
+			copiaTablero.mover(Direccion.DERECHA, true);
 			break;
 		default:
 			return -1; // Dirección inválida
@@ -422,7 +426,7 @@ public class Tablero {
 	}
 
 	public int obtenerPuntaje() {
-		int puntajeTotal = 0;
+		int puntajeTotal = puntaje;
 		for (int i = 0; i < cantidadFilas; i++)
 			for (int j = 0; j < cantidadColumnas; j++)
 				if (matriz[i][j] >= VALOR_CELDA_UMBRAL_SUMA_PUNTAJE)
