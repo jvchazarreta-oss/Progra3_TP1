@@ -1,8 +1,5 @@
 package presentacion;
 
-import static constantes.Constantes.CANTIDAD_COLUMNAS;
-import static constantes.Constantes.CANTIDAD_FILAS;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -29,13 +26,12 @@ public class VentanaPrincipal {
 
 	private static final Color COLOR_DE_FONDO_CELDA = new Color(187, 216, 216);
 
+	private Juego juego = new Juego();
+
 	private JFrame frmThrees;
 	private JLabel lblInstrucciones;
 	private JLabel lblIndicadorSugerencia;
-
-	private JLabel[][] celdas = new JLabel[CANTIDAD_FILAS][CANTIDAD_COLUMNAS];
-
-	private Juego juego = new Juego();
+	private JLabel[][] celdas = new JLabel[juego.getCantidadFilas()][juego.getCantidadColumnas()];
 
 	private JTextField textFieldProximoNumero;
 
@@ -176,8 +172,8 @@ public class VentanaPrincipal {
 		lblIndicadorSugerencia.setBounds(420, 10, 75, 27);
 		frmThrees.getContentPane().add(lblIndicadorSugerencia);
 
-		for (int i = 0; i < CANTIDAD_FILAS; i++) {
-			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
+		for (int i = 0; i < juego.getCantidadFilas(); i++) {
+			for (int j = 0; j < juego.getCantidadColumnas(); j++) {
 				JLabel labelCelda = new JLabel("0", SwingConstants.CENTER);
 				labelCelda.setOpaque(true);
 				labelCelda.setBackground(COLOR_DE_FONDO_CELDA);
@@ -199,8 +195,8 @@ public class VentanaPrincipal {
 
 		textFieldProximoNumero.setText(String.valueOf(tablero.obtenerProximoNumero()));
 
-		for (int i = 0; i < CANTIDAD_FILAS; i++)
-			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
+		for (int i = 0; i < juego.getCantidadFilas(); i++)
+			for (int j = 0; j < juego.getCantidadColumnas(); j++) {
 				int valor = tablero.obtenerValorDeLaCelda(i, j);
 				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
 

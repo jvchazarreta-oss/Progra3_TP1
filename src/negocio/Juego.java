@@ -1,8 +1,5 @@
 package negocio;
 
-import static constantes.Constantes.CANTIDAD_COLUMNAS;
-import static constantes.Constantes.CANTIDAD_FILAS;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -10,12 +7,23 @@ import negocio.Tablero.Direccion;
 
 public class Juego {
 
+	public static final int CANTIDAD_FILAS = 4;
+	public static final int CANTIDAD_COLUMNAS = 4;
+
 	private Tablero tablero;
 	private ArrayList<Integer> puntajes;
 
 	public Juego() {
 		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS);
 		this.puntajes = new ArrayList<Integer>();
+	}
+
+	public int getCantidadFilas() {
+		return CANTIDAD_FILAS;
+	}
+
+	public int getCantidadColumnas() {
+		return CANTIDAD_COLUMNAS;
 	}
 
 	public int obtenerPuntaje() {
@@ -46,15 +54,6 @@ public class Juego {
 
 	public Tablero getTablero() {
 		return tablero;
-	}
-
-	public void mostrarTableroPorConsola() {
-		for (int fila = 0; fila < CANTIDAD_FILAS; fila++) {
-			for (int col = 0; col < CANTIDAD_COLUMNAS; col++) {
-				System.out.print(tablero.obtenerValorDeLaCelda(fila, col) + " ");
-			}
-			System.out.println("");
-		}
 	}
 
 	public boolean mover(Direccion direccion) {

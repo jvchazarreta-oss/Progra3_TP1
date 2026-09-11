@@ -1,8 +1,5 @@
 package negocio;
 
-import static constantes.Constantes.CANTIDAD_COLUMNAS;
-import static constantes.Constantes.CANTIDAD_FILAS;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +14,7 @@ public class Tablero {
 	private int cantidadFilas;
 	private int siguienteNumero;
 	private int puntaje;
-	
+
 	public Tablero(int fila, int col) {
 		this.matriz = new int[fila][col];
 		this.cantidadColumnas = col;
@@ -29,18 +26,6 @@ public class Tablero {
 
 	public enum Direccion {
 		ARRIBA, ABAJO, IZQUIERDA, DERECHA
-	}
-
-	public int[][] obtenerTablero() {
-		return this.matriz;
-	}
-
-	public int obtenerFilas() {
-		return this.cantidadFilas;
-	}
-
-	public int obtenerCol() {
-		return this.cantidadColumnas;
 	}
 
 	public void establecerValorCelda(int fila, int col, int valor) {
@@ -73,8 +58,8 @@ public class Tablero {
 
 	public List<Coordenada> ubicacionesInicialesNumeros() {
 		List<Coordenada> ubicaciones = new ArrayList<>();
-		for (int i = 0; i < CANTIDAD_FILAS; i++) {
-			for (int j = 0; j < CANTIDAD_COLUMNAS; j++) {
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
 				ubicaciones.add(new Coordenada(i, j));
 			}
 		}
@@ -97,9 +82,11 @@ public class Tablero {
 		int n = aleatorio.nextInt(1, 4);
 		return n;
 	}
+
 	public boolean mover(Direccion direccion) {
 		return mover(direccion, false);
 	}
+
 	public boolean mover(Direccion direccion, boolean esSugerencia) {
 		boolean huboCambio = false;
 
@@ -142,22 +129,6 @@ public class Tablero {
 		}
 	}
 
-	public boolean moverArriba() {
-		return mover(Direccion.ARRIBA,false);
-	}
-
-	public boolean moverAbajo() {
-		return mover(Direccion.ABAJO,false);
-	}
-
-	public boolean moverIzquierda() {
-		return mover(Direccion.IZQUIERDA,false);
-	}
-
-	public boolean moverDerecha() {
-		return mover(Direccion.DERECHA,false);
-	}
-
 	private boolean moverFicha(int filaInicial, int colInicial, int filaDestino, int colDestino) {
 		int valorInicial = matriz[filaInicial][colInicial];
 		int valorDestino = matriz[filaDestino][colDestino];
@@ -175,7 +146,7 @@ public class Tablero {
 		if (sePuedenFusionar(valorInicial, valorDestino)) {
 			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
 			matriz[filaInicial][colInicial] = 0;
-			puntaje = puntaje + matriz[filaDestino][colDestino] ;
+			puntaje = puntaje + matriz[filaDestino][colDestino];
 			return true;
 		}
 
