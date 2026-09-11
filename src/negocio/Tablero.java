@@ -106,12 +106,8 @@ public class Tablero {
 		case DERECHA:
 			huboCambio = moverHorizontalmente(1);
 			break;
-		case NINGUNA:
-			new IllegalStateException("Ninguna dirección fue suministrada");
-			break;
 		default:
-			new IllegalStateException("Dirección inválida");
-			break;
+			throw new IllegalStateException("Dirección inválida");
 		}
 
 		if (huboCambio && !esSugerencia) {
@@ -135,12 +131,8 @@ public class Tablero {
 		case DERECHA:
 			agregarFichaEnColumnaSiHayLugar(0);
 			break;
-		case NINGUNA:
-			new IllegalStateException("Ninguna dirección fue suministrada");
-			break;
 		default:
-			new IllegalStateException("Direccion inválida");
-			break;
+			throw new IllegalStateException("Direccion inválida");
 		}
 	}
 
@@ -319,7 +311,7 @@ public class Tablero {
 			copiaTablero.mover(Direccion.DERECHA, true);
 			break;
 		default:
-			return -1; // Dirección inválida
+			throw new IllegalStateException("Direccion inválida en calculo del puntaje de un movimiento");
 		}
 
 		return copiaTablero.obtenerPuntaje();
@@ -342,8 +334,8 @@ public class Tablero {
 		case DERECHA:
 			compensacionColumna = 1;
 			break;
-		case NINGUNA:
-			return false;
+		default:
+			throw new IllegalStateException("Direccion inválida en consulta de se puede mover");
 		}
 
 		for (int i = 0; i < cantidadFilas; i++) {
