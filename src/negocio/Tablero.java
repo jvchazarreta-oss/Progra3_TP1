@@ -6,20 +6,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Tablero {
-	private static final int CANTIDAD_FICHAS_INICIALES = 9;
-	private static final int VALOR_CELDA_UMBRAL_SUMA_PUNTAJE = 3;
 
 	private int[][] matriz;
 	private int cantidadColumnas;
 	private int cantidadFilas;
 	private int siguienteNumero;
 	private int puntaje;
+	private int cantidadFichasIniciales;
+	private int valorCeldaUmbralQueSumaPuntaje;
 
-	public Tablero(int fila, int col) {
-		this.matriz = new int[fila][col];
-		this.cantidadColumnas = col;
-		this.cantidadFilas = fila;
+	public Tablero(int filas, int columnas, int cantidadFichasIniciales, int valorCeldaUmbralQueSumaPuntaje) {
+		this.matriz = new int[filas][columnas];
+		this.cantidadColumnas = columnas;
+		this.cantidadFilas = filas;
 		this.siguienteNumero = 0;
+		this.cantidadFichasIniciales = cantidadFichasIniciales;
+		this.valorCeldaUmbralQueSumaPuntaje = valorCeldaUmbralQueSumaPuntaje;
 
 		cargarTablero();
 	}
@@ -64,7 +66,7 @@ public class Tablero {
 			}
 		}
 		Collections.shuffle(ubicaciones);
-		return ubicaciones.subList(0, CANTIDAD_FICHAS_INICIALES);
+		return ubicaciones.subList(0, this.cantidadFichasIniciales);
 	}
 
 	public void cargarNumeros(int fila, int col) {
@@ -305,7 +307,8 @@ public class Tablero {
 	}
 
 	private int calcularPuntajeMovimiento(int direccion) {
-		Tablero copiaTablero = new Tablero(cantidadFilas, cantidadColumnas);
+		Tablero copiaTablero = new Tablero(cantidadFilas, cantidadColumnas, cantidadFichasIniciales,
+				valorCeldaUmbralQueSumaPuntaje);
 		for (int i = 0; i < cantidadFilas; i++) {
 			for (int j = 0; j < cantidadColumnas; j++) {
 				copiaTablero.establecerValorCelda(i, j, matriz[i][j]);
@@ -400,7 +403,7 @@ public class Tablero {
 		int puntajeTotal = puntaje;
 		for (int i = 0; i < cantidadFilas; i++)
 			for (int j = 0; j < cantidadColumnas; j++)
-				if (matriz[i][j] >= VALOR_CELDA_UMBRAL_SUMA_PUNTAJE)
+				if (matriz[i][j] >= this.valorCeldaUmbralQueSumaPuntaje)
 					puntajeTotal += matriz[i][j];
 		return puntajeTotal;
 	}

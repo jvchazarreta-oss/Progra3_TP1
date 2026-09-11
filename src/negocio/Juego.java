@@ -7,14 +7,17 @@ import negocio.Tablero.Direccion;
 
 public class Juego {
 
-	public static final int CANTIDAD_FILAS = 4;
-	public static final int CANTIDAD_COLUMNAS = 4;
+	private static final int CANTIDAD_FILAS = 4;
+	private static final int CANTIDAD_COLUMNAS = 4;
+	private static final int CANTIDAD_FICHAS_INICIALES = 9;
+	private static final int VALOR_CELDA_UMBRAL_SUMA_PUNTAJE = 3;
 
 	private Tablero tablero;
 	private ArrayList<Integer> puntajes;
 
 	public Juego() {
-		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS);
+		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS, CANTIDAD_FICHAS_INICIALES,
+				VALOR_CELDA_UMBRAL_SUMA_PUNTAJE);
 		this.puntajes = new ArrayList<Integer>();
 	}
 
@@ -73,7 +76,8 @@ public class Juego {
 	}
 
 	public void nuevoJuego() {
-		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS);
+		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS, CANTIDAD_FICHAS_INICIALES,
+				VALOR_CELDA_UMBRAL_SUMA_PUNTAJE);
 	}
 
 }
