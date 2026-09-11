@@ -89,7 +89,7 @@ public class Tablero {
 		return mover(direccion, false);
 	}
 
-	public boolean mover(Direccion direccion, boolean esSugerencia) {
+	private boolean mover(Direccion direccion, boolean esSugerencia) {
 		boolean huboCambio = false;
 
 		switch (direccion) {

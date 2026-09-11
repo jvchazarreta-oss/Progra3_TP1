@@ -18,13 +18,11 @@ public class TablaDePosiciones {
 	private JTable table;
 	private Juego juego;
 
-	
 	public TablaDePosiciones(Juego juego) {
 		this.juego = juego;
 		initialize();
 	}
 
-	
 	private void initialize() {
 		frmTablaDePosiciones = new JFrame();
 		frmTablaDePosiciones.setTitle("Tabla de posiciones");
@@ -51,7 +49,7 @@ public class TablaDePosiciones {
 		model.addColumn("Puntaje");
 
 		// agrego filas con la info
-		ArrayList<Integer> puntajes = juego.obtenerPuntajes();
+		ArrayList<Integer> puntajes = juego.obtenerPuntajesHistoricos();
 
 		for (int i = 0; i < puntajes.size(); i++) {
 			Integer puntaje = puntajes.get(i);

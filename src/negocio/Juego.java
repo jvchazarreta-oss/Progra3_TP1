@@ -13,12 +13,12 @@ public class Juego {
 	private static final int VALOR_CELDA_UMBRAL_SUMA_PUNTAJE = 3;
 
 	private Tablero tablero;
-	private ArrayList<Integer> puntajes;
+	private ArrayList<Integer> puntajesHistoricos;
 
 	public Juego() {
 		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS, CANTIDAD_FICHAS_INICIALES,
 				VALOR_CELDA_UMBRAL_SUMA_PUNTAJE);
-		this.puntajes = new ArrayList<Integer>();
+		this.puntajesHistoricos = new ArrayList<Integer>();
 	}
 
 	public int getCantidadFilas() {
@@ -33,18 +33,18 @@ public class Juego {
 		return tablero.obtenerPuntaje();
 	}
 
-	public ArrayList<Integer> obtenerPuntajes() {
-		return this.puntajes;
+	public ArrayList<Integer> obtenerPuntajesHistoricos() {
+		return this.puntajesHistoricos;
 	}
 
 	private void almacenarPuntaje() {
 		int puntaje = tablero.obtenerPuntaje();
 
-		if (puntajes.contains(puntaje))
+		if (puntajesHistoricos.contains(puntaje))
 			return;
 
-		puntajes.add(tablero.obtenerPuntaje());
-		puntajes.sort(Comparator.reverseOrder());
+		puntajesHistoricos.add(tablero.obtenerPuntaje());
+		puntajesHistoricos.sort(Comparator.reverseOrder());
 	}
 
 	public boolean estaVacio(int fila, int columna) {
