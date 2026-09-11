@@ -28,12 +28,16 @@ public class VentanaPrincipal {
 
 	private Juego juego = new Juego();
 
+	private JLabel[][] celdas = new JLabel[juego.getCantidadFilas()][juego.getCantidadColumnas()];
 	private JFrame frmThrees;
 	private JLabel lblInstrucciones;
 	private JLabel lblIndicadorSugerencia;
-	private JLabel[][] celdas = new JLabel[juego.getCantidadFilas()][juego.getCantidadColumnas()];
-
+	private JPanel panelTablero;
+	private JButton btnTablaPosiciones;
+	private JLabel lblProximoNumero;
 	private JTextField textFieldProximoNumero;
+	private JButton btnSugerenciaProxJugada;
+	private JButton btnReiniciarJuego;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,62 +68,67 @@ public class VentanaPrincipal {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmThrees = new JFrame();
-		frmThrees.setFocusable(true);
-		frmThrees.setResizable(false);
-		frmThrees.setTitle("Threes!");
-		frmThrees.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				moverSegunTecla(e);
+		crearVentanaPrincipal();
+		crearPanelTableroPrincipal();
+
+		crearLabelInstruccionesParaJugar();
+
+		crearBotonReiniciarJuego();
+		crearBotonTablaPosiciones();
+
+		crearLabelProximoNumero();
+		crearCampoDeTextoProximoNumero();
+
+		crearLabelSugerencia();
+		crearBotonSugerenciaProximaJugada();
+
+		crearCeldasTableroPrincipal();
+
+		actualizarTablero();
+
+	}
+
+	private void crearCeldasTableroPrincipal() {
+		for (int i = 0; i < juego.getCantidadFilas(); i++) {
+			for (int j = 0; j < juego.getCantidadColumnas(); j++) {
+				JLabel labelCelda = new JLabel("0", SwingConstants.CENTER);
+				labelCelda.setOpaque(true);
+				labelCelda.setBackground(COLOR_DE_FONDO_CELDA);
+				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16));
+
+				celdas[i][j] = labelCelda;
+				this.panelTablero.add(labelCelda);
 			}
-		});
-		frmThrees.setBounds(100, 100, 594, 446);
-		frmThrees.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmThrees.getContentPane().setLayout(null);
+		}
+	}
 
-		lblInstrucciones = new JLabel("Controles: flechas del teclado");
-		lblInstrucciones.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblInstrucciones.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInstrucciones.setBounds(128, 375, 330, 21);
-		frmThrees.getContentPane().add(lblInstrucciones);
+	private void crearLabelSugerencia() {
+		lblIndicadorSugerencia = new JLabel("");
+		lblIndicadorSugerencia.setBackground(new Color(128, 255, 128));
+		lblIndicadorSugerencia.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblIndicadorSugerencia.setBounds(420, 10, 75, 27);
+		frmThrees.getContentPane().add(lblIndicadorSugerencia);
+	}
 
-		JPanel panelTablero = new JPanel();
-		panelTablero.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panelTablero.setBackground(new Color(207, 229, 222));
-		panelTablero.setBounds(75, 74, 423, 290);
-		frmThrees.getContentPane().add(panelTablero);
-		panelTablero.setLayout(new GridLayout(4, 4, 8, 8));
-
-		JButton btnTablaHistorica = new JButton("Tabla de posiciones");
-		btnTablaHistorica.addActionListener(new ActionListener() {
+	private void crearBotonReiniciarJuego() {
+		btnReiniciarJuego = new JButton("Reiniciar juego");
+		btnReiniciarJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mostrarTablaDePosiciones();
+				juego.nuevoJuego();
+				actualizarTablero();
 			}
 		});
-		btnTablaHistorica.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnTablaHistorica.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnReiniciarJuego.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnReiniciarJuego.setBounds(24, 10, 145, 21);
+		btnReiniciarJuego.setFocusable(false);
+		frmThrees.getContentPane().add(btnReiniciarJuego);
+	}
 
-		btnTablaHistorica.setBounds(24, 42, 171, 21);
-		btnTablaHistorica.setFocusable(false);
-		frmThrees.getContentPane().add(btnTablaHistorica);
-
-		JLabel lblProximoNumero = new JLabel("Próximo");
-		lblProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblProximoNumero.setBounds(253, 17, 88, 14);
-		frmThrees.getContentPane().add(lblProximoNumero);
-
-		textFieldProximoNumero = new JTextField();
-		textFieldProximoNumero.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldProximoNumero.setEditable(false);
-		textFieldProximoNumero.setColumns(10);
-		textFieldProximoNumero.setBounds(245, 42, 86, 21);
-		frmThrees.getContentPane().add(textFieldProximoNumero);
-
-		JButton btnSugerenciaProxJugada = new JButton("Sugerencia...");
-		btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
+	private void crearBotonSugerenciaProximaJugada() {
+		this.btnSugerenciaProxJugada = new JButton("Sugerencia...");
+		this.btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		this.btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Direccion numeroDireccion = juego.obtenerSugerencia();
 
@@ -149,45 +158,74 @@ public class VentanaPrincipal {
 			}
 		});
 
-		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
-		btnSugerenciaProxJugada.setFocusable(false);
-		frmThrees.getContentPane().add(btnSugerenciaProxJugada);
+		this.btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
+		this.btnSugerenciaProxJugada.setFocusable(false);
+		this.frmThrees.getContentPane().add(this.btnSugerenciaProxJugada);
+	}
 
-		JButton btnReiniciarJuego = new JButton("Reiniciar juego");
-		btnReiniciarJuego.addActionListener(new ActionListener() {
+	private void crearCampoDeTextoProximoNumero() {
+		textFieldProximoNumero = new JTextField();
+		textFieldProximoNumero.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		textFieldProximoNumero.setEditable(false);
+		textFieldProximoNumero.setColumns(10);
+		textFieldProximoNumero.setBounds(245, 42, 86, 21);
+		frmThrees.getContentPane().add(textFieldProximoNumero);
+	}
+
+	private void crearLabelProximoNumero() {
+		this.lblProximoNumero = new JLabel("Próximo");
+		this.lblProximoNumero.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		this.lblProximoNumero.setBounds(253, 17, 88, 14);
+		frmThrees.getContentPane().add(this.lblProximoNumero);
+	}
+
+	private void crearBotonTablaPosiciones() {
+		this.btnTablaPosiciones = new JButton("Tabla de posiciones");
+		this.btnTablaPosiciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				juego.nuevoJuego();
-				actualizarTablero();
+				mostrarTablaDePosiciones();
 			}
 		});
-		btnReiniciarJuego.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnReiniciarJuego.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnReiniciarJuego.setBounds(24, 10, 145, 21);
-		btnReiniciarJuego.setFocusable(false);
-		frmThrees.getContentPane().add(btnReiniciarJuego);
+		this.btnTablaPosiciones.setHorizontalTextPosition(SwingConstants.CENTER);
+		this.btnTablaPosiciones.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-		lblIndicadorSugerencia = new JLabel("");
-		lblIndicadorSugerencia.setBackground(new Color(128, 255, 128));
-		lblIndicadorSugerencia.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblIndicadorSugerencia.setBounds(420, 10, 75, 27);
-		frmThrees.getContentPane().add(lblIndicadorSugerencia);
+		this.btnTablaPosiciones.setBounds(24, 42, 171, 21);
+		this.btnTablaPosiciones.setFocusable(false);
+		frmThrees.getContentPane().add(this.btnTablaPosiciones);
+	}
 
-		for (int i = 0; i < juego.getCantidadFilas(); i++) {
-			for (int j = 0; j < juego.getCantidadColumnas(); j++) {
-				JLabel labelCelda = new JLabel("0", SwingConstants.CENTER);
-				labelCelda.setOpaque(true);
-				labelCelda.setBackground(COLOR_DE_FONDO_CELDA);
-				labelCelda.setFont(new Font("SansSerif", Font.BOLD, 16));
+	private void crearPanelTableroPrincipal() {
+		this.panelTablero = new JPanel();
+		this.panelTablero.setBorder(new EmptyBorder(10, 10, 10, 10));
+		this.panelTablero.setBackground(new Color(207, 229, 222));
+		this.panelTablero.setBounds(75, 74, 423, 290);
+		frmThrees.getContentPane().add(this.panelTablero);
+		this.panelTablero.setLayout(new GridLayout(4, 4, 8, 8));
+	}
 
-				celdas[i][j] = labelCelda;
-				panelTablero.add(labelCelda);
+	private void crearLabelInstruccionesParaJugar() {
+		lblInstrucciones = new JLabel("Controles: flechas del teclado");
+		lblInstrucciones.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblInstrucciones.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInstrucciones.setBounds(128, 375, 330, 21);
+		frmThrees.getContentPane().add(lblInstrucciones);
+	}
+
+	private void crearVentanaPrincipal() {
+		this.frmThrees = new JFrame();
+		this.frmThrees.setFocusable(true);
+		this.frmThrees.setResizable(false);
+		this.frmThrees.setTitle("Threes!");
+		this.frmThrees.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				moverSegunTecla(e);
 			}
-		}
-
-		// vuelvo a recorrer otra vez la matriz, no importa porque O(n**2) +
-		// O(n**2) es O(n**2)
-		actualizarTablero();
-
+		});
+		this.frmThrees.setBounds(100, 100, 594, 446);
+		this.frmThrees.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frmThrees.getContentPane().setLayout(null);
 	}
 
 	private void actualizarTablero() {

@@ -105,6 +105,12 @@ public class Tablero {
 		case DERECHA:
 			huboCambio = moverHorizontalmente(1);
 			break;
+		case NINGUNA:
+			new IllegalStateException("Ninguna dirección fue suministrada");
+			break;
+		default:
+			new IllegalStateException("Dirección inválida");
+			break;
 		}
 
 		if (huboCambio && !esSugerencia) {
@@ -127,6 +133,12 @@ public class Tablero {
 			break;
 		case DERECHA:
 			agregarFichaEnColumnaSiHayLugar(0);
+			break;
+		case NINGUNA:
+			new IllegalStateException("Ninguna dirección fue suministrada");
+			break;
+		default:
+			new IllegalStateException("Direccion inválida");
 			break;
 		}
 	}
