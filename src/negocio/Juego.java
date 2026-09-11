@@ -63,7 +63,7 @@ public class Juego {
 		return tablero.mover(direccion);
 	}
 
-	public int obtenerSugerencia() {
+	public Direccion obtenerSugerencia() {
 		return tablero.sugerenciaDeMovimientoConMayorPuntaje();
 	}
 

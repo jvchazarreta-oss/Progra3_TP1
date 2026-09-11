@@ -27,7 +27,7 @@ public class Tablero {
 	}
 
 	public enum Direccion {
-		ARRIBA, ABAJO, IZQUIERDA, DERECHA
+		ARRIBA, ABAJO, IZQUIERDA, DERECHA, NINGUNA
 	}
 
 	public void establecerValorCelda(int fila, int col, int valor) {
@@ -148,7 +148,7 @@ public class Tablero {
 		if (sePuedenFusionar(valorInicial, valorDestino)) {
 			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
 			matriz[filaInicial][colInicial] = 0;
-			puntaje = puntaje + matriz[filaDestino][colDestino];
+			// puntaje = puntaje + matriz[filaDestino][colDestino];
 			return true;
 		}
 
@@ -270,36 +270,36 @@ public class Tablero {
 		return false;
 	}
 
-	public int sugerenciaDeMovimientoConMayorPuntaje() {
-		int movimientoSugerido = 0; // 0: No hay movimiento posible, 1: Arriba, 2: Abajo, 3: Izquierda, 4: Derecha
+	public Direccion sugerenciaDeMovimientoConMayorPuntaje() {
+		Direccion movimientoSugerido = Direccion.NINGUNA;
 		int puntajeMaximo = -1;
 
 		if (sePuedeMoverArriba()) {
 			int puntajeArriba = calcularPuntajeMovimiento(1);
 			if (puntajeArriba > puntajeMaximo) {
 				puntajeMaximo = puntajeArriba;
-				movimientoSugerido = 1; // Arriba
+				movimientoSugerido = Direccion.ARRIBA;
 			}
 		}
 		if (sePuedeMoverAbajo()) {
 			int puntajeAbajo = calcularPuntajeMovimiento(2);
 			if (puntajeAbajo > puntajeMaximo) {
 				puntajeMaximo = puntajeAbajo;
-				movimientoSugerido = 2; // Abajo
+				movimientoSugerido = Direccion.ABAJO;
 			}
 		}
 		if (sePuedeMoverIzquierda()) {
 			int puntajeIzquierda = calcularPuntajeMovimiento(3);
 			if (puntajeIzquierda > puntajeMaximo) {
 				puntajeMaximo = puntajeIzquierda;
-				movimientoSugerido = 3; // Izquierda
+				movimientoSugerido = Direccion.IZQUIERDA;
 			}
 		}
 		if (sePuedeMoverDerecha()) {
 			int puntajeDerecha = calcularPuntajeMovimiento(4);
 			if (puntajeDerecha > puntajeMaximo) {
 				puntajeMaximo = puntajeDerecha;
-				movimientoSugerido = 4; // Derecha
+				movimientoSugerido = Direccion.DERECHA;
 			}
 		}
 

@@ -121,21 +121,21 @@ public class VentanaPrincipal {
 		btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int numeroDireccion = juego.obtenerSugerencia();
+				Direccion numeroDireccion = juego.obtenerSugerencia();
 
 				// 2. Mapeo del tipo de dato primitivo a su representación visual
 				String flecha;
 				switch (numeroDireccion) {
-				case 1:
+				case ARRIBA:
 					flecha = "↑";
 					break;
-				case 2:
+				case ABAJO:
 					flecha = "↓";
 					break;
-				case 3:
+				case IZQUIERDA:
 					flecha = "←";
 					break;
-				case 4:
+				case DERECHA:
 					flecha = "→";
 					break;
 				default:
