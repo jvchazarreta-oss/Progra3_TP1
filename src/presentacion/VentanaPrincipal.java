@@ -131,7 +131,7 @@ public class VentanaPrincipal {
 		btnSugerenciaProxJugada.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSugerenciaProxJugada.setBounds(393, 40, 145, 23);
 		btnSugerenciaProxJugada.setFocusable(false);
-
+		btnSugerenciaProxJugada.setToolTipText("Simula cada movimiento posible y sugiere el que da mayor puntaje.");
 		btnSugerenciaProxJugada.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
