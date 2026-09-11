@@ -107,8 +107,7 @@ public class Tablero {
 			huboCambio = moverHorizontalmente(1);
 			break;
 		default:
-			new IllegalStateException("Dirección inválida al mover");
-			break;
+			throw new IllegalStateException("Dirección inválida al mover");
 		}
 
 		if (huboCambio && !esSugerencia) {
@@ -183,8 +182,7 @@ public class Tablero {
 			agregarFichaEnColumnaSiHayLugar(0);
 			break;
 		default:
-			new IllegalStateException("Direccion inválida al agregar ficha segun direccion");
-			break;
+			throw new IllegalStateException("Direccion inválida al agregar ficha segun direccion");
 		}
 	}
 
