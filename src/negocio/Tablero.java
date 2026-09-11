@@ -12,6 +12,11 @@ public class Tablero {
 	private int cantidadFilas;
 	private int siguienteNumero;
 	private int puntaje;
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
 	private int cantidadFichasIniciales;
 	private int valorCeldaUmbralQueSumaPuntaje;
 
@@ -160,7 +165,7 @@ public class Tablero {
 		if (sePuedenFusionar(valorInicial, valorDestino)) {
 			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
 			matriz[filaInicial][colInicial] = 0;
-			// puntaje = puntaje + matriz[filaDestino][colDestino];
+			puntaje = puntaje + matriz[filaDestino][colDestino];
 			return true;
 		}
 
