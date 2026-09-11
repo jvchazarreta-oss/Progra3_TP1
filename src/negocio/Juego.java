@@ -80,9 +80,4 @@ public class Juego {
 				VALOR_CELDA_UMBRAL_SUMA_PUNTAJE);
 	}
 
-	public int getPuntaje() {
-
-		return tablero.getPuntaje();
-	}
-
 }

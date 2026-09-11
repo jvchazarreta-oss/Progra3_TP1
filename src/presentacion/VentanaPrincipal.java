@@ -280,10 +280,10 @@ public class VentanaPrincipal {
 
 	private void mostrarFinDeJuego() {
 		String[] listaOpciones = { "Tabla de posiciones", "Juego nuevo", "Salir a Windows" };
-		int puntajeObtenido = juego.obtenerPuntaje();
+		int puntajeFinal = juego.obtenerPuntaje();
 
 		int eleccion = javax.swing.JOptionPane.showOptionDialog(frmThrees,
-				"¡Juego terminado! Tu puntaje es " + puntajeObtenido, null, javax.swing.JOptionPane.DEFAULT_OPTION,
+				"¡Juego terminado! Tu puntaje es " + puntajeFinal, null, javax.swing.JOptionPane.DEFAULT_OPTION,
 				javax.swing.JOptionPane.INFORMATION_MESSAGE, null, listaOpciones, listaOpciones[0]);
 
 		if (eleccion == javax.swing.JOptionPane.CLOSED_OPTION)
