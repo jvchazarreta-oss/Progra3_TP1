@@ -106,11 +106,8 @@ public class Tablero {
 		case DERECHA:
 			huboCambio = moverHorizontalmente(1);
 			break;
-		case NINGUNA:
-			new IllegalStateException("Ninguna dirección fue suministrada");
-			break;
 		default:
-			new IllegalStateException("Dirección inválida");
+			new IllegalStateException("Dirección inválida al mover");
 			break;
 		}
 
@@ -119,53 +116,6 @@ public class Tablero {
 		}
 
 		return huboCambio;
-	}
-
-	private void agregarFichaSegunDireccion(Direccion direccion) {
-		switch (direccion) {
-		case ARRIBA:
-			agregarFichaEnFilaSiHayLugar(cantidadFilas - 1);
-			break;
-		case ABAJO:
-			agregarFichaEnFilaSiHayLugar(0);
-			break;
-		case IZQUIERDA:
-			agregarFichaEnColumnaSiHayLugar(cantidadColumnas - 1);
-			break;
-		case DERECHA:
-			agregarFichaEnColumnaSiHayLugar(0);
-			break;
-		case NINGUNA:
-			new IllegalStateException("Ninguna dirección fue suministrada");
-			break;
-		default:
-			new IllegalStateException("Direccion inválida");
-			break;
-		}
-	}
-
-	private boolean moverFicha(int filaInicial, int colInicial, int filaDestino, int colDestino) {
-		int valorInicial = matriz[filaInicial][colInicial];
-		int valorDestino = matriz[filaDestino][colDestino];
-
-		if (valorInicial == 0) {
-			return false;
-		}
-
-		if (valorDestino == 0) {
-			matriz[filaDestino][colDestino] = valorInicial;
-			matriz[filaInicial][colInicial] = 0;
-			return true;
-		}
-
-		if (sePuedenFusionar(valorInicial, valorDestino)) {
-			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
-			matriz[filaInicial][colInicial] = 0;
-			puntaje += matriz[filaDestino][colDestino];
-			return true;
-		}
-
-		return false;
 	}
 
 	private boolean moverVerticalmente(int desplazamiento) {
@@ -218,6 +168,51 @@ public class Tablero {
 		return huboCambio;
 	}
 
+	private void agregarFichaSegunDireccion(Direccion direccion) {
+		switch (direccion) {
+		case ARRIBA:
+			agregarFichaEnFilaSiHayLugar(cantidadFilas - 1);
+			break;
+		case ABAJO:
+			agregarFichaEnFilaSiHayLugar(0);
+			break;
+		case IZQUIERDA:
+			agregarFichaEnColumnaSiHayLugar(cantidadColumnas - 1);
+			break;
+		case DERECHA:
+			agregarFichaEnColumnaSiHayLugar(0);
+			break;
+		default:
+			new IllegalStateException("Direccion inválida al agregar ficha segun direccion");
+			break;
+		}
+	}
+
+	private boolean moverFicha(int filaInicial, int colInicial, int filaDestino, int colDestino) {
+		int valorInicial = matriz[filaInicial][colInicial];
+		int valorDestino = matriz[filaDestino][colDestino];
+
+		if (valorInicial == 0) {
+			return false;
+		}
+
+		if (valorDestino == 0) {
+			matriz[filaDestino][colDestino] = valorInicial;
+			matriz[filaInicial][colInicial] = 0;
+			return true;
+		}
+
+		if (sePuedenFusionar(valorInicial, valorDestino)) {
+			matriz[filaDestino][colDestino] = valorInicial + valorDestino;
+			matriz[filaInicial][colInicial] = 0;
+
+			puntaje += matriz[filaDestino][colDestino];
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean sePuedenFusionar(int a, int b) {
 		boolean sonIgualesYMayoresA3 = (a == b) && (a >= 3);
 		boolean sonUnoYDos = (a == 1 && b == 2) || (a == 2 && b == 1);
@@ -267,6 +262,71 @@ public class Tablero {
 		return false;
 	}
 
+	public Direccion sugerenciaDeMovimientoConMayorPuntaje() {
+		Direccion movimientoSugerido = Direccion.NINGUNA;
+		int puntajeMaximo = -1;
+
+		if (sePuedeMoverArriba()) {
+			int puntajeArriba = calcularPuntajeMovimiento(Direccion.ARRIBA);
+			if (puntajeArriba > puntajeMaximo) {
+				puntajeMaximo = puntajeArriba;
+				movimientoSugerido = Direccion.ARRIBA;
+			}
+		}
+		if (sePuedeMoverAbajo()) {
+			int puntajeAbajo = calcularPuntajeMovimiento(Direccion.ABAJO);
+			if (puntajeAbajo > puntajeMaximo) {
+				puntajeMaximo = puntajeAbajo;
+				movimientoSugerido = Direccion.ABAJO;
+			}
+		}
+		if (sePuedeMoverIzquierda()) {
+			int puntajeIzquierda = calcularPuntajeMovimiento(Direccion.IZQUIERDA);
+			if (puntajeIzquierda > puntajeMaximo) {
+				puntajeMaximo = puntajeIzquierda;
+				movimientoSugerido = Direccion.IZQUIERDA;
+			}
+		}
+		if (sePuedeMoverDerecha()) {
+			int puntajeDerecha = calcularPuntajeMovimiento(Direccion.DERECHA);
+			if (puntajeDerecha > puntajeMaximo) {
+				puntajeMaximo = puntajeDerecha;
+				movimientoSugerido = Direccion.DERECHA;
+			}
+		}
+
+		return movimientoSugerido;
+	}
+
+	private int calcularPuntajeMovimiento(Direccion direccion) {
+		Tablero copiaTablero = new Tablero(cantidadFilas, cantidadColumnas, cantidadFichasIniciales,
+				valorCeldaUmbralQueSumaPuntaje);
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
+				copiaTablero.establecerValorCelda(i, j, matriz[i][j]);
+			}
+		}
+
+		switch (direccion) {
+		case ARRIBA:
+			copiaTablero.mover(Direccion.ARRIBA, true);
+			break;
+		case ABAJO:
+			copiaTablero.mover(Direccion.ABAJO, true);
+			break;
+		case IZQUIERDA:
+			copiaTablero.mover(Direccion.IZQUIERDA, true);
+			break;
+		case DERECHA:
+			copiaTablero.mover(Direccion.DERECHA, true);
+			break;
+		default:
+			throw new IllegalStateException("Dirección inválida al calcular el puntaje en el movimiento");
+		}
+
+		return copiaTablero.obtenerPuntaje();
+	}
+
 	private boolean sePuedeMoverArriba() {
 		for (int j = 0; j < cantidadColumnas; j++) {
 			for (int i = 1; i < cantidadFilas; i++) {
@@ -281,71 +341,6 @@ public class Tablero {
 			}
 		}
 		return false;
-	}
-
-	public Direccion sugerenciaDeMovimientoConMayorPuntaje() {
-		Direccion movimientoSugerido = Direccion.NINGUNA;
-		int puntajeMaximo = -1;
-
-		if (sePuedeMoverArriba()) {
-			int puntajeArriba = calcularPuntajeMovimiento(1);
-			if (puntajeArriba > puntajeMaximo) {
-				puntajeMaximo = puntajeArriba;
-				movimientoSugerido = Direccion.ARRIBA;
-			}
-		}
-		if (sePuedeMoverAbajo()) {
-			int puntajeAbajo = calcularPuntajeMovimiento(2);
-			if (puntajeAbajo > puntajeMaximo) {
-				puntajeMaximo = puntajeAbajo;
-				movimientoSugerido = Direccion.ABAJO;
-			}
-		}
-		if (sePuedeMoverIzquierda()) {
-			int puntajeIzquierda = calcularPuntajeMovimiento(3);
-			if (puntajeIzquierda > puntajeMaximo) {
-				puntajeMaximo = puntajeIzquierda;
-				movimientoSugerido = Direccion.IZQUIERDA;
-			}
-		}
-		if (sePuedeMoverDerecha()) {
-			int puntajeDerecha = calcularPuntajeMovimiento(4);
-			if (puntajeDerecha > puntajeMaximo) {
-				puntajeMaximo = puntajeDerecha;
-				movimientoSugerido = Direccion.DERECHA;
-			}
-		}
-
-		return movimientoSugerido;
-	}
-
-	private int calcularPuntajeMovimiento(int direccion) {
-		Tablero copiaTablero = new Tablero(cantidadFilas, cantidadColumnas, cantidadFichasIniciales,
-				valorCeldaUmbralQueSumaPuntaje);
-		for (int i = 0; i < cantidadFilas; i++) {
-			for (int j = 0; j < cantidadColumnas; j++) {
-				copiaTablero.establecerValorCelda(i, j, matriz[i][j]);
-			}
-		}
-
-		switch (direccion) {
-		case 1:
-			copiaTablero.mover(Direccion.ARRIBA, true);
-			break;
-		case 2:
-			copiaTablero.mover(Direccion.ABAJO, true);
-			break;
-		case 3:
-			copiaTablero.mover(Direccion.IZQUIERDA, true);
-			break;
-		case 4:
-			copiaTablero.mover(Direccion.DERECHA, true);
-			break;
-		default:
-			return -1; // Dirección inválida
-		}
-
-		return copiaTablero.obtenerPuntaje();
 	}
 
 	private boolean sePuedeMoverAbajo() {
