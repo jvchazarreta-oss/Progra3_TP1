@@ -95,10 +95,10 @@ public class Tablero {
 
 		switch (direccion) {
 		case ARRIBA:
-			huboCambio = moverVerticalmente(-1);
+			huboCambio = moverVerticalmente(1);
 			break;
 		case ABAJO:
-			huboCambio = moverVerticalmente(1);
+			huboCambio = moverVerticalmente(-1);
 			break;
 		case IZQUIERDA:
 			huboCambio = moverHorizontalmente(-1);
@@ -171,27 +171,26 @@ public class Tablero {
 	private boolean moverVerticalmente(int desplazamiento) {
 		boolean huboCambio = false;
 
-		if (desplazamiento < 0) {
-			// Arriba
-			for (int columna = 0; columna < cantidadColumnas; columna++) {
+		for (int columna = 0; columna < cantidadColumnas; columna++)
+			if (desplazamiento > 0) {
+				// Arriba
 				for (int fila = 1; fila < cantidadFilas; fila++) {
 					if (moverFicha(fila, columna, fila - 1, columna)) {
 						huboCambio = true;
 					}
 				}
-			}
-		} else {
-			// Abajo
-			for (int columna = 0; columna < cantidadColumnas; columna++) {
+
+			} else {
+				// Abajo
 				for (int fila = cantidadFilas - 2; fila >= 0; fila--) {
 					if (moverFicha(fila, columna, fila + 1, columna)) {
 						huboCambio = true;
 					}
 				}
 			}
-		}
 
 		return huboCambio;
+
 	}
 
 	private boolean moverHorizontalmente(int desplazamiento) {
@@ -267,15 +266,13 @@ public class Tablero {
 		return false;
 	}
 
-	
-
 	public Direccion sugerenciaDeMovimientoConMayorPuntaje() {
-		
+
 		ArrayList<Direccion> mejoresMovimientos = new ArrayList<>();
 		int puntajeMaximo = -1;
 
-		Direccion[] direcciones = {Direccion.ARRIBA, Direccion.ABAJO, Direccion.IZQUIERDA, Direccion.DERECHA};
-		
+		Direccion[] direcciones = { Direccion.ARRIBA, Direccion.ABAJO, Direccion.IZQUIERDA, Direccion.DERECHA };
+
 		for (Direccion direccion : direcciones) {
 			if (sePuedeMover(direccion)) {
 				int puntajeMovimiento = calcularPuntajeMovimiento(direccion);
@@ -289,15 +286,14 @@ public class Tablero {
 			}
 		}
 		if (mejoresMovimientos.isEmpty()) {
-	        return Direccion.NINGUNA;
-	    }
+			return Direccion.NINGUNA;
+		}
 
-	    
-	    Random generadorAleatorio = new Random();
-	    int indiceGanador = generadorAleatorio.nextInt(mejoresMovimientos.size());
-	    
-	    return mejoresMovimientos.get(indiceGanador);
-	
+		Random generadorAleatorio = new Random();
+		int indiceGanador = generadorAleatorio.nextInt(mejoresMovimientos.size());
+
+		return mejoresMovimientos.get(indiceGanador);
+
 	}
 
 	private int calcularPuntajeMovimiento(Direccion direccion) {
@@ -329,48 +325,48 @@ public class Tablero {
 		return copiaTablero.obtenerPuntaje();
 	}
 
-	
-	
 	private boolean sePuedeMover(Direccion direccion) {
-	    int compensacionFila = 0;
-	    int compensacionColumna = 0;
+		int compensacionFila = 0;
+		int compensacionColumna = 0;
 
-	  
-	    switch (direccion) {
-	        case ARRIBA:    compensacionFila = -1;
-	        break;
-	        case ABAJO:     compensacionFila = 1;
-	        break;
-	        case IZQUIERDA: compensacionColumna = -1;
-	        break;
-	        case DERECHA:   compensacionColumna = 1;
-	        break;
-	        case NINGUNA:  
-	        	return false;
-	    }
+		switch (direccion) {
+		case ARRIBA:
+			compensacionFila = -1;
+			break;
+		case ABAJO:
+			compensacionFila = 1;
+			break;
+		case IZQUIERDA:
+			compensacionColumna = -1;
+			break;
+		case DERECHA:
+			compensacionColumna = 1;
+			break;
+		case NINGUNA:
+			return false;
+		}
 
-	    
-	    for (int i = 0; i < cantidadFilas; i++) {
-	        for (int j = 0; j < cantidadColumnas; j++) {
-	            int valorActual = matriz[i][j];
-	            
-	            if (valorActual != 0) {
-	                int filaVecina = i + compensacionFila;
-	                int columnaVecina = j + compensacionColumna;
+		for (int i = 0; i < cantidadFilas; i++) {
+			for (int j = 0; j < cantidadColumnas; j++) {
+				int valorActual = matriz[i][j];
 
-	                //para que no se pase los limites de la matriz
-	                if (filaVecina >= 0 && filaVecina < cantidadFilas && columnaVecina >= 0 && columnaVecina < cantidadColumnas) {
-	                    int valorVecino = matriz[filaVecina][columnaVecina];
-	                    
-	                    
-	                    if (valorVecino == 0 || sePuedenFusionar(valorActual, valorVecino)) {
-	                        return true;
-	                    }
-	                }
-	            }
-	        }
-	    }
-	    return false;
+				if (valorActual != 0) {
+					int filaVecina = i + compensacionFila;
+					int columnaVecina = j + compensacionColumna;
+
+					// para que no se pase los limites de la matriz
+					if (filaVecina >= 0 && filaVecina < cantidadFilas && columnaVecina >= 0
+							&& columnaVecina < cantidadColumnas) {
+						int valorVecino = matriz[filaVecina][columnaVecina];
+
+						if (valorVecino == 0 || sePuedenFusionar(valorActual, valorVecino)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	private boolean hayFusionPosible() {
