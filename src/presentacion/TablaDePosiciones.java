@@ -14,7 +14,8 @@ import negocio.Juego;
 
 public class TablaDePosiciones {
 
-	public JFrame frmTablaDePosiciones;
+	private JFrame frmTablaDePosiciones;
+	private JScrollPane scrollPane;
 	private JTable table;
 	private Juego juego;
 
@@ -23,28 +24,24 @@ public class TablaDePosiciones {
 		initialize();
 	}
 
+	public void mostrarTablaDePosiciones() {
+		frmTablaDePosiciones.setVisible(true);
+	}
+
 	private void initialize() {
-		frmTablaDePosiciones = new JFrame();
-		frmTablaDePosiciones.setTitle("Tabla de posiciones");
-		frmTablaDePosiciones.setResizable(false);
-		frmTablaDePosiciones.setBounds(100, 100, 333, 304);
-		frmTablaDePosiciones.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frmTablaDePosiciones.getContentPane().setLayout(null);
+		crearTablaDePosiciones();
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 297, 243);
-		frmTablaDePosiciones.getContentPane().add(scrollPane);
+		crearScrollPane();
 
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setEnabled(false);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		scrollPane.setViewportView(table);
+		crearTabla();
+		cargarPuntajesEnTabla();
+		centrarContenidoDeCeldas();
+	}
 
+	private void cargarPuntajesEnTabla() {
 		// modelo
 		DefaultTableModel model = new DefaultTableModel();
 
-		// agrego columnas
 		model.addColumn("Posición");
 		model.addColumn("Puntaje");
 
@@ -57,7 +54,9 @@ public class TablaDePosiciones {
 		}
 
 		table.setModel(model);
+	}
 
+	private void centrarContenidoDeCeldas() {
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(JLabel.CENTER);
 
@@ -65,6 +64,29 @@ public class TablaDePosiciones {
 			TableColumn col = table.getColumnModel().getColumn(i);
 			col.setCellRenderer(dtcr);
 		}
+	}
 
+	private void crearTabla() {
+		table = new JTable();
+		table.setRowSelectionAllowed(false);
+		table.setEnabled(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		scrollPane.setViewportView(table);
+
+	}
+
+	private void crearScrollPane() {
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 297, 243);
+		frmTablaDePosiciones.getContentPane().add(scrollPane);
+	}
+
+	private void crearTablaDePosiciones() {
+		frmTablaDePosiciones = new JFrame();
+		frmTablaDePosiciones.setTitle("Tabla de posiciones");
+		frmTablaDePosiciones.setResizable(false);
+		frmTablaDePosiciones.setBounds(100, 100, 333, 304);
+		frmTablaDePosiciones.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmTablaDePosiciones.getContentPane().setLayout(null);
 	}
 }

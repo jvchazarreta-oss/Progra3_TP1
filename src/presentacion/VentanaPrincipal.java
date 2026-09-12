@@ -316,7 +316,7 @@ public class VentanaPrincipal {
 
 	private void mostrarTablaDePosiciones() {
 		TablaDePosiciones frmTabla = new TablaDePosiciones(juego);
-		frmTabla.frmTablaDePosiciones.setVisible(true);
+		frmTabla.mostrarTablaDePosiciones();
 	}
 
 	private void moverSegunTecla(KeyEvent eventoTecla) {
