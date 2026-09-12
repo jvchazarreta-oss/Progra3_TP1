@@ -55,16 +55,16 @@ public class Juego {
 		tablero.cargarTablero();
 	}
 
-	public Tablero getTablero() {
-		return tablero;
-	}
-
 	public boolean mover(Direccion direccion) {
 		return tablero.mover(direccion);
 	}
 
 	public Direccion obtenerSugerencia() {
 		return tablero.sugerenciaDeMovimientoConMayorPuntaje();
+	}
+
+	public int obtenerProximoNumero() {
+		return tablero.obtenerProximoNumero();
 	}
 
 	public boolean juegoTerminado() {
@@ -78,6 +78,10 @@ public class Juego {
 	public void nuevoJuego() {
 		this.tablero = new Tablero(CANTIDAD_FILAS, CANTIDAD_COLUMNAS, CANTIDAD_FICHAS_INICIALES,
 				VALOR_CELDA_UMBRAL_SUMA_PUNTAJE);
+	}
+
+	public int obtenerValorDeLaCelda(int i, int j) {
+		return tablero.obtenerValorDeLaCelda(i, j);
 	}
 
 }

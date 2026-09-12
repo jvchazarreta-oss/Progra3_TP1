@@ -19,7 +19,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import negocio.Juego;
-import negocio.Tablero;
 import negocio.Tablero.Direccion;
 
 public class VentanaPrincipal {
@@ -240,19 +239,17 @@ public class VentanaPrincipal {
 	}
 
 	private void actualizarTablero() {
-		Tablero tablero = juego.getTablero();
+		colocarFormatoACeldaSegunSuValor();
 
-		colocarFormatoACeldaSegunSuValor(tablero);
-
-		textFieldProximoNumero.setText(String.valueOf(tablero.obtenerProximoNumero()));
+		textFieldProximoNumero.setText(String.valueOf(juego.obtenerProximoNumero()));
 
 	}
 
-	private void colocarFormatoACeldaSegunSuValor(Tablero tablero) {
+	private void colocarFormatoACeldaSegunSuValor() {
 		for (int i = 0; i < juego.getCantidadFilas(); i++)
 			for (int j = 0; j < juego.getCantidadColumnas(); j++) {
 
-				int valor = tablero.obtenerValorDeLaCelda(i, j);
+				int valor = juego.obtenerValorDeLaCelda(i, j);
 				celdas[i][j].setText(valor == 0 ? "" : String.valueOf(valor));
 
 				switch (valor) {
