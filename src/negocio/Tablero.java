@@ -94,20 +94,20 @@ public class Tablero {
 		boolean huboCambio = false;
 
 		switch (direccion) {
-		case ARRIBA:
-			huboCambio = moverVerticalmente(1);
-			break;
-		case ABAJO:
-			huboCambio = moverVerticalmente(-1);
-			break;
-		case IZQUIERDA:
-			huboCambio = moverHorizontalmente(-1);
-			break;
-		case DERECHA:
-			huboCambio = moverHorizontalmente(1);
-			break;
-		default:
-			throw new IllegalStateException("Dirección inválida");
+			case ARRIBA:
+				huboCambio = moverVerticalmente(1);
+				break;
+			case ABAJO:
+				huboCambio = moverVerticalmente(-1);
+				break;
+			case IZQUIERDA:
+				huboCambio = moverHorizontalmente(-1);
+				break;
+			case DERECHA:
+				huboCambio = moverHorizontalmente(1);
+				break;
+			default:
+				throw new IllegalStateException("Dirección inválida");
 		}
 
 		if (huboCambio && !esSugerencia) {
@@ -119,20 +119,20 @@ public class Tablero {
 
 	private void agregarFichaSegunDireccion(Direccion direccion) {
 		switch (direccion) {
-		case ARRIBA:
-			agregarFichaEnFilaSiHayLugar(cantidadFilas - 1);
-			break;
-		case ABAJO:
-			agregarFichaEnFilaSiHayLugar(0);
-			break;
-		case IZQUIERDA:
-			agregarFichaEnColumnaSiHayLugar(cantidadColumnas - 1);
-			break;
-		case DERECHA:
-			agregarFichaEnColumnaSiHayLugar(0);
-			break;
-		default:
-			throw new IllegalStateException("Direccion inválida");
+			case ARRIBA:
+				agregarFichaEnFilaSiHayLugar(cantidadFilas - 1);
+				break;
+			case ABAJO:
+				agregarFichaEnFilaSiHayLugar(0);
+				break;
+			case IZQUIERDA:
+				agregarFichaEnColumnaSiHayLugar(cantidadColumnas - 1);
+				break;
+			case DERECHA:
+				agregarFichaEnColumnaSiHayLugar(0);
+				break;
+			default:
+				throw new IllegalStateException("Direccion inválida");
 		}
 	}
 
@@ -298,20 +298,20 @@ public class Tablero {
 		}
 
 		switch (direccion) {
-		case Direccion.ARRIBA:
-			copiaTablero.mover(Direccion.ARRIBA, true);
-			break;
-		case Direccion.ABAJO:
-			copiaTablero.mover(Direccion.ABAJO, true);
-			break;
-		case Direccion.IZQUIERDA:
-			copiaTablero.mover(Direccion.IZQUIERDA, true);
-			break;
-		case Direccion.DERECHA:
-			copiaTablero.mover(Direccion.DERECHA, true);
-			break;
-		default:
-			throw new IllegalStateException("Direccion inválida en calculo del puntaje de un movimiento");
+			case ARRIBA:
+				copiaTablero.mover(Direccion.ARRIBA, true);
+				break;
+			case ABAJO:
+				copiaTablero.mover(Direccion.ABAJO, true);
+				break;
+			case IZQUIERDA:
+				copiaTablero.mover(Direccion.IZQUIERDA, true);
+				break;
+			case DERECHA:
+				copiaTablero.mover(Direccion.DERECHA, true);
+				break;
+			default:
+				throw new IllegalStateException("Direccion inválida en calculo del puntaje de un movimiento");
 		}
 
 		return copiaTablero.obtenerPuntaje();
@@ -322,20 +322,20 @@ public class Tablero {
 		int compensacionColumna = 0;
 
 		switch (direccion) {
-		case ARRIBA:
-			compensacionFila = -1;
-			break;
-		case ABAJO:
-			compensacionFila = 1;
-			break;
-		case IZQUIERDA:
-			compensacionColumna = -1;
-			break;
-		case DERECHA:
-			compensacionColumna = 1;
-			break;
-		default:
-			throw new IllegalStateException("Direccion inválida en consulta de se puede mover");
+			case ARRIBA:
+				compensacionFila = -1;
+				break;
+			case ABAJO:
+				compensacionFila = 1;
+				break;
+			case IZQUIERDA:
+				compensacionColumna = -1;
+				break;
+			case DERECHA:
+				compensacionColumna = 1;
+				break;
+			default:
+				throw new IllegalStateException("Direccion inválida en consulta de se puede mover");
 		}
 
 		for (int i = 0; i < cantidadFilas; i++) {
