@@ -34,7 +34,7 @@ public class Juego {
 	}
 
 	public ArrayList<Integer> obtenerPuntajesHistoricos() {
-		return this.puntajesHistoricos;
+		return (ArrayList<Integer>) this.puntajesHistoricos.clone();
 	}
 
 	private void almacenarPuntaje() {
@@ -49,10 +49,6 @@ public class Juego {
 
 	public boolean estaVacio(int fila, int columna) {
 		return tablero.obtenerValorDeLaCelda(fila, columna) == 0;
-	}
-
-	public void cargarTablero() {
-		tablero.cargarTablero();
 	}
 
 	public boolean mover(Direccion direccion) {
